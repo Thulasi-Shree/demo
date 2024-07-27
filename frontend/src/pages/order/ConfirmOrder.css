@@ -1,0 +1,24 @@
+
+#CardLogText{
+    color: white;
+    /* text-shadow: 1px 1.7px #5a3a07; */
+    background-color: transparent;
+  }
+#ConfrimOrderCard{
+    /* background-image: url('../../assets/img/dark-gradient-background-with-copy-space_53876-99548.avif');; */
+    color: white
+}
+
+#CardBackIMg156{
+  filter:drop-shadow(6px 5px 6px orange);
+}
+.back{
+  background-color: white !important;
+}
+
+  
+
+  @import url('https://fonts.googleapis.com/css2?family=Abel&family=Dancing+Script:wght@400..700&family=Recursive:wght@300..1000&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap')
+
+
+ 

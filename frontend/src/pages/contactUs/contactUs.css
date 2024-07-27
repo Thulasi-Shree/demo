@@ -1,0 +1,15 @@
+h5{
+    color:black !important;
+}
+
+.CardImg114{
+  color: rgb(9, 8, 8) !important;
+  filter:drop-shadow(6px 5px 6px orange);
+
+  } 
+  #CardText1{
+    color: rgb(0, 0, 0);
+  }
+  .back:hover{
+  color: black;
+  }

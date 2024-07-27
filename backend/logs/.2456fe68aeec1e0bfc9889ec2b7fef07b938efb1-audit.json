@@ -1,0 +1,60 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "logs\\.2456fe68aeec1e0bfc9889ec2b7fef07b938efb1-audit.json",
+    "files": [
+        {
+            "date": 1720956506379,
+            "name": "logs\\error-2024-07-14.log",
+            "hash": "f36ece397e39040bf98e960d0fd21749142a3b09f168e4c9ff5fca93613297db"
+        },
+        {
+            "date": 1721136810306,
+            "name": "logs\\error-2024-07-16.log",
+            "hash": "0eb7bd22e61fc57dc91e3c2806d4b69cab26c693089c21cdef52509592df89d2"
+        },
+        {
+            "date": 1721160288701,
+            "name": "logs\\error-2024-07-17.log",
+            "hash": "894fc8978359e005a76813287cba21f4b8cd795645c9814fe99e1563a888dbae"
+        },
+        {
+            "date": 1721330136255,
+            "name": "logs\\error-2024-07-19.log",
+            "hash": "79463e8d87eb2c3d2ef3126712affc81c40cc4b0973ed47ffa34c6eecf140ae6"
+        },
+        {
+            "date": 1721413998494,
+            "name": "logs\\error-2024-07-20.log",
+            "hash": "32147cb2358535b7afecf2447600509db81e9c7389bd3636e4943ca8ac53090d"
+        },
+        {
+            "date": 1721551626804,
+            "name": "logs\\error-2024-07-21.log",
+            "hash": "72f52e19ec5bababd557814dc8977971f466e09ec9525207317c67fcacc2325e"
+        },
+        {
+            "date": 1721748199419,
+            "name": "logs\\error-2024-07-23.log",
+            "hash": "9a016e43e4918313bb8104958d0aa2cbea58d5a77830a7cf3b67475f64ecdf56"
+        },
+        {
+            "date": 1721760088262,
+            "name": "logs\\error-2024-07-24.log",
+            "hash": "0e1d8492b116789df1ed134b092b5b09bc94bb370e8c3395d01e9eb15d43b491"
+        },
+        {
+            "date": 1721990776489,
+            "name": "logs\\error-2024-07-26.log",
+            "hash": "a24ecadcc6d3c4bdca0e3c86fe00e02a79d04d70d01ac58eb8deb85c0ff8d24c"
+        },
+        {
+            "date": 1722073706554,
+            "name": "logs\\error-2024-07-27.log",
+            "hash": "80a1798963a23399b9a4b27ac429696c3a97896b84e40805a797fc342886de76"
+        }
+    ],
+    "hashType": "sha256"
+}
