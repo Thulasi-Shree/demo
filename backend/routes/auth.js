@@ -25,6 +25,7 @@ const { isAuthenticatedUser } = require('../middlewares/authenticate');
 
 // User Registration: POST /api/register
 router.post('/register', registerController.registerUser);
+router.post('/admin', registerController.registerAdmin);
 router.post('/verify-email/:token', confirmRegistration);
 
 // User Login with Credentials: POST /api/login

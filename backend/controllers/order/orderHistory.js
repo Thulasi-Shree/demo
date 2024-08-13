@@ -66,7 +66,7 @@ const getActiveOrdersByBranch = catchAsyncError(async (req, res, next) => {
 
 
 const getNonActiveOrdersByBranch = catchAsyncError(async (req, res, next) => {
-    const { page = 1, pageSize = 30 } = req.query;
+    const { page = 1, pageSize = 100 } = req.query;
     try {
         const totalItems = await Order.countDocuments();
         const { startDate, endDate, orderType } = req.query;
@@ -116,7 +116,7 @@ const getNonActiveOrdersByBranch = catchAsyncError(async (req, res, next) => {
     }
 });
 const getNonActiveOrdersByBranch1 = catchAsyncError( async (req, res, next) => {
-    const { page = 1, pageSize = 30, sortDirection = 'asc' } = req.query;
+    const { page = 1, pageSize = 100, sortDirection = 'asc' } = req.query;
   
     try {
       const { startDate, endDate, orderType } = req.query;

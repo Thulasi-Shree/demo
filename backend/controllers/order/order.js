@@ -128,7 +128,7 @@ exports.myOrders = catchAsyncError(async (req, res, next) => {
 });
   
 exports.orders = catchAsyncError(async (req, res, next) => {
-    const { page = 1, pageSize = 30 } = req.query;
+    const { page = 1, pageSize = 100 } = req.query;
     try {
       const totalItems = await Order.countDocuments();
       const { startDate, endDate, orderType } = req.query;
@@ -182,7 +182,7 @@ exports.orders = catchAsyncError(async (req, res, next) => {
   
 
 exports.ordersActive = catchAsyncError(async (req, res, next) => {
-    const { page = 1, pageSize = 20 } = req.query;
+    const { page = 1, pageSize = 100 } = req.query;
     try {
         const totalItems = await Order.countDocuments();
         const restaurantId = req.query.restaurantId;

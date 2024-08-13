@@ -29,7 +29,7 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
         const phoneRegex = /^[0-9]{10,14}$/;  // Adjust regex according to your requirements
         return phoneRegex.test(phone);
     };
-    
+
 
     try {
 
@@ -53,10 +53,11 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
         }
         const bytes = CryptoJS.AES.decrypt(encryptedPassword, 'ghjdjdgdhddjjdhgdcdghww#hsh536');
         const decryptedPassword = bytes.toString(CryptoJS.enc.Utf8);
-
-        if (decryptedPassword.length < 8) {
-            return next(new ErrorHandler('Password must be at least 8 characters long', 400));
-          }
+        if (role !== 'admin' || role !== 'superAdmin') {
+            if (decryptedPassword.length < 8) {
+                return next(new ErrorHandler('Password must be at least 8 characters long', 400));
+            }
+        }
 
         const user = new User({
             name,
@@ -87,13 +88,13 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
                 _id: user._id,
                 emailVerificationStatus: false,
             }).lean(false);
-        
-            if (userToDelete) { 
+
+            if (userToDelete) {
                 // Delete the user if not verified
                 await User.deleteOne({ _id: userToDelete._id });
-                console.log(`User ${userToDelete.email} deleted after 5 minutes.`);
+                console.log(`User ${userToDelete.email} deleted after 10 minutes.`);
             }
-        }, 5 * 60 * 1000);
+        }, 10 * 60 * 1000);
     } catch (error) {
         console.error(error);
         next(new ErrorHandler('Internal Server Error', 500));
@@ -120,7 +121,7 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
     }
 
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
-        new: true, 
+        new: true,
         runValidators: true,
     });
 
@@ -130,4 +131,65 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
         success: true,
         user
     });
+});
+
+exports.registerAdmin = catchAsyncError(async (req, res, next) => {
+    const {
+        name,
+        lastName,
+        email,
+        password: plainPassword,
+        phone,
+        role,
+        restaurantBranch,
+        restaurantId
+    } = req.body;
+
+    // Ensure the role is either 'admin' or 'superAdmin'
+    if (role !== 'admin' && role !== 'superAdmin') {
+        return next(new ErrorHandler('Invalid role. Only admin and superAdmin roles are allowed.', 400));
+    }
+
+    // Validate phone number
+    const validatePhoneNumber = (phone) => {
+        const phoneRegex = /^[0-9]{10,14}$/; // Adjust regex according to your requirements
+        return phoneRegex.test(phone);
+    };
+
+    if (!validatePhoneNumber(phone)) {
+        return next(new ErrorHandler('Invalid phone number format', 400));
+    }
+
+    // Check if email or phone already exists
+    const existingUserByEmail = await User.findOne({ email });
+    const existingUserByPhone = await User.findOne({ phone });
+
+    if (existingUserByEmail) {
+        return next(new ErrorHandler('Email address is already registered', 400));
+    }
+
+    if (existingUserByPhone) {
+        return next(new ErrorHandler('Phone number is already registered', 400));
+    }
+
+    // Encrypt the password
+    const encryptedPassword = CryptoJS.AES.encrypt(plainPassword, 'ghjdjdgdhddjjdhgdcdghww#hsh536').toString();
+
+    const user = new User({
+        name,
+        lastName,
+        email,
+        password: encryptedPassword,
+        phone,
+        role,
+        restaurantBranch,
+        restaurantId,
+        emailVerificationStatus: false,
+    });
+
+    // Save the user
+    await user.save();
+
+    // Generate and send token
+    sendToken(user, 200, res);
 });

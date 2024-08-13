@@ -21,7 +21,7 @@ exports.getMenus = catchAsyncError(async (req, res, next) => {
       const Menus = await new APIFeatures(Menu.find(), req.query)
         .search()
         .filter()
-        // .sort()
+        .sort()
         .paginate(resPerPage)
         .query.sort({ isAvailable: -1, mealTypeCategory: 1});
   
