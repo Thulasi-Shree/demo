@@ -17,7 +17,7 @@ const OrdersTable = () => {
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const pageSize = 30;
+  const pageSize = 100;
   const [restaurant, setRestaurant] = useState([]);
   const [orderType, setSelectedOrderType] = useState('all');
   const [selectedOrderStatus, setSelectedOrderStatus] = useState('');
@@ -105,7 +105,7 @@ const OrdersTable = () => {
       });
 
       setOrders(orders || []);
-      setTotalPages(Math.ceil(response.headers['x-total-count'] / pageSize));
+      setTotalPages(Math.ceil(pageSize / pageSize));
     } catch (error) {
       console.error('Error fetching orders:', error);
     }

@@ -176,7 +176,7 @@ const ConfirmOrder = () => {
                 <div className="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                   <Card className="p-2 borderUp" id="CardText">
                     <p id="CardText">
-                      <b>Name:</b> {user.name} {user.lastName}
+                      <b>Name:</b>  {user?.name || localData?.name} {user?.lastName || localData?.lastName}
                       {/* Replace with actual name data */}
                     </p>
                     {isLoggedIn && (

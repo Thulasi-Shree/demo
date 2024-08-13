@@ -59,9 +59,7 @@ export default function CreateMenu() {
   const handleCheckboxChange = () => {
     setIsAvailable(!isAvailable); // Toggle the checkbox value
   };
-  const handleAddMealCategoryClick = () => {
-    setAddMealCategoryModalOpen(!isAddMealCategoryModalOpen);
-  };
+  
   const fetchDietaryCategories = async () => {
     await axios
       .get('/api/dietary-preferences')
@@ -77,6 +75,11 @@ export default function CreateMenu() {
       .catch((error) =>
         console.error('Error fetching meal categories:', error)
       );
+  };
+  const handleAddMealCategoryClick = () => {
+    setAddMealCategoryModalOpen(!isAddMealCategoryModalOpen);
+    fetchMealCategories1();
+    fetchMealCategories()
   };
   const handleSaveMealCategory = async () => {
     try {
@@ -104,6 +107,9 @@ export default function CreateMenu() {
   const handleAddCategoryClick = () => {
     console.log('handleAddCategoryClick called');
     setAddCategoryModalOpen(!isAddCategoryModalOpen);
+    fetchDietaryCategories();
+    fetchMealCategories1();
+    fetchMealCategories()
   };
   const handleSaveCategory = async () => {
     try {
@@ -165,6 +171,8 @@ export default function CreateMenu() {
       // Handle success, e.g., show a success message
       // alert('Category Deleted Successfully!');
       setAlert({ message: 'Category Deleted Successfully!', type: 'success' });
+      fetchCategories()
+      fetchMealCategories()
 
       // Fetch updated categories after deleting a category
     } catch (error) {
@@ -180,6 +188,9 @@ export default function CreateMenu() {
       // Handle success, e.g., show a success message
       // alert('Category Deleted Successfully!');
       setAlert({ message: 'Category Deleted Successfully!', type: 'success' });
+      fetchCategories()
+      fetchDietaryCategories();
+      fetchMealCategories()
 
 
       // Fetch updated categories after deleting a category
@@ -217,15 +228,15 @@ export default function CreateMenu() {
       await axios.post('/api/admin/product/new', formData);
 
       // alert('Product Created Successfully!');
-      setAlert({ message: 'Product Created Successfully!', type: 'success' });
+      setAlert({ message: 'Menu Created Successfully!', type: 'success' });
 
 
       // navigate('/admin/products');
     } catch (error) {
       // console.error('Error creating product:', error);
-      setAlert({ message: "Error creating product", type: 'error' });
+      setAlert({ message: "Error creating menu", type: 'error' });
 
-      setError('Error creating product. Please try again.');
+      setError('Error creating menu. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -262,6 +273,9 @@ export default function CreateMenu() {
     }
   }, []);
   useEffect(() => {
+    fetchDietaryCategories();
+    fetchMealCategories1();
+    fetchMealCategories()
     // Update selected restaurantId based on the selectedBranch
     if (role === 'superAdmin') {
       const selectedBranchObject = restaurantBranch.find(
@@ -272,7 +286,7 @@ export default function CreateMenu() {
         setSelectedRestaurantId(selectedBranchObject.restaurantId);
       }
     }
-  }, [selectedBranch, restaurantBranch]);
+  }, [selectedBranch, restaurantBranch, mealTypeCategory]);
 
   return (
     <div className=" bg-white py-1 text-white">
@@ -669,7 +683,7 @@ export default function CreateMenu() {
                 <Modal.Header closeButton>
                   <Modal.Title>All Meal Categories</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className="modal-body-centered">
                   <CategoryList1
                     categories={categories}
                     onDeleteCategory1={handleDeleteCategory1}

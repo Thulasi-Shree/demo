@@ -9,21 +9,29 @@ const CategoryList = ({ categories, onDeleteCategory }) => {
   return (
     <div>
       <h4>All Categories</h4>
-      <ul>
-        {categories.map((category) => (
-          <li key={category._id}>
-            {category.dietaryPreferenceCategory}
-            <Button
-              className="mx-5"
-              variant="danger"
-              onClick={() => onDeleteCategory(category._id)}
+      {categories.length > 0 ? (
+        <ul className="list-group">
+          {categories.map((category) => (
+            <li
+              key={category._id}
+              className="list-group-item d-flex justify-content-between align-items-center"
             >
-              <FontAwesomeIcon icon={faTrash} />
-            </Button>
-          </li>
-        ))}
-      </ul>
+              {category.dietaryPreferenceCategory}
+              <Button
+                variant="danger"
+                size="sm"
+                onClick={() => onDeleteCategory(category._id)}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </Button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No categories available.</p>
+      )}
     </div>
   );
 };
+
 export default CategoryList;

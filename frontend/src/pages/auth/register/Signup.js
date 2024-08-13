@@ -336,7 +336,7 @@ const navigate = useNavigate();
       });
       // navigate('/email/Confirmation')
       // alert('Verification email sent! Please check your inbox to login.');
-      setAlert({ message: 'Verification email sent! Please check your inbox to log in. Note: Your registration will be removed after 5 minutes if the email is not verified.', type: 'success' });
+      setAlert({ message: 'Verification email sent! Please check your inbox to log in. Note: Your registration will be removed after 10 minutes if the email is not verified.', type: 'success' });
     } catch (error) {
       // alert(`${error.response.data.message}`);
       setAlert({ message: error.response.data.message, type: 'error' });

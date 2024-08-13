@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
+import CryptoJS from 'crypto-js';
 import CustomAlert from 'components/utilities/Alert';
 
 const CreateAdmin = () => {
@@ -43,11 +44,18 @@ const CreateAdmin = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+   e.preventDefault();
+
+    const encryptedPassword = CryptoJS.AES.encrypt(
+      formData.password,
+      'ghjdjdgdhddjjdhgdcdghww#hsh536'
+    ).toString();
 
     try {
-      const response = await axios.post('/api/register', formData);
-      // alert('Registration successful!');
+      const response = await axios.post('/api/register', {
+        ...formData,
+        password: encryptedPassword
+      });
       setAlert({ message: 'Registration successful!', type: 'success' });
     } catch (error) {
       console.error('error', error.response.data.message);
@@ -222,6 +230,7 @@ const CreateAdmin = () => {
               </option>
             </select>
           </div>
+          {formData.role !== 'superAdmin' && (
           <div className="mb-3">
             <label htmlFor="restaurantBranch" id="CardText">
               Restaurant Branch:
@@ -248,6 +257,8 @@ const CreateAdmin = () => {
                 ))}
             </select>
           </div>
+          
+        )}
           <div className="mb-3">
             <input
               type="hidden"

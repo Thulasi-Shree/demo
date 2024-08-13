@@ -17,7 +17,7 @@ const OrdersHistory = () => {
   const [orders, setOrders] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const pageSize = 3;
+  const pageSize = 100;
   const [restaurant, setRestaurant] = useState([]);
   const [totalOrders, setTotalOrders] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -76,7 +76,7 @@ const OrdersHistory = () => {
       setTotalPrice(totalPrice);
 
       setOrders(orders || []);
-      setTotalPages(Math.ceil(response.headers['x-total-count'] / pageSize));
+      setTotalPages(Math.ceil(totalOrders / pageSize));
     } catch (error) {
       console.error('Error fetching orders:', error);
     }
