@@ -66,7 +66,7 @@ filter:drop-shadow(6px 5px 6px orange);
   }
   #LoginImg1{
     background: rgb(189, 187, 255);
-    background: linear-gradient(90deg, rgb(145, 141, 219) 18%, rgba(157, 157, 230, 0.88) 52%, rgb(136, 169, 213) 87%);
+    /* background: linear-gradient(90deg, rgb(145, 141, 219) 18%, rgba(157, 157, 230, 0.88) 52%, rgb(136, 169, 213) 87%); */
     color: white;
     background-repeat: no-repeat;
     background-size: cover;

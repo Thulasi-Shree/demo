@@ -171,7 +171,7 @@ const Payment = () => {
       <div className="col-12 CardImg114 bg-white col-lg-6 mx-auto ">
         <Form
           onSubmit={submitHandler}
-          className="shadow-lg  custom-table"
+          className="shadow-lg bg-white custom-table"
           id="CardBackIMg1"
         >
           <div className="my-2 p-2">
