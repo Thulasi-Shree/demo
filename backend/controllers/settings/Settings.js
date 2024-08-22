@@ -78,8 +78,30 @@ const getSettings = catchAsyncError(async (req, res, next) => {
   }
 });
 
+// Get settings for a specific restaurant and branch
+const getSettingsbyId = catchAsyncError(async (req, res, next) => {
+  const restaurantId = req.query.restaurantId; // Extract restaurantId from query parameters
+
+  try {
+    const settings = await Settings.findOne({ restaurantId });
+
+    if (!settings) {
+      return next(new ErrorHandler('Settings not found', 404));
+    }
+
+    const successResponse = new SuccessHandler('Settings fetched successfully', settings);
+    successResponse.sendResponse(res);
+  } catch (error) {
+    console.error(error);
+    next(new ErrorHandler('Internal Server Error', 500));
+  }
+});
+
+
+
 module.exports = {
   updateSettings,
   getSettings,
-  createSetting
+  createSetting,
+  getSettingsbyId
 };

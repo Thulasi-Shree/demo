@@ -244,7 +244,7 @@ const Settings = ({ token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('/api/admin/settings/update', {
+      const response = await axios.post('http://localhost:8000/api/admin/settings/update', {
         ...settings,
         isExisting // Send a flag to indicate whether the settings exist
       }, {

@@ -222,7 +222,8 @@ const ShippingInfo1 = () => {
   const [billingpostal_code, setBillingpostal_code] = useState(billing.postalCode || billing.postal_code || '');
   const [billingCity, setBillingCity] = useState(billing.city || '');
   const [billingState, setBillingState] = useState(billing.state || '');
-  const [billingCountry, setBillingCountry] = useState('US');
+  const [billingCountry, setBillingCountry] = useState('US');  
+  const restaurantId = JSON.parse(localStorage.getItem('restaurantId'));
   const handleSameAsDeliveryChange = () => {
     setSameAsDelivery(!sameAsDelivery);
 
@@ -382,7 +383,7 @@ const ShippingInfo1 = () => {
       } else {
         setDeliveryVerified(false);
         // alert(`Delivery address is too far. Maximum delivery distance is ${deliveryKm} km.`);
-        setAlert({ message: `Delivery address is too far. Maximum delivery distance is ${deliveryKm} km.`, type: 'success' });
+        setAlert({ message: `Delivery address is too far. Maximum delivery distance is ${deliveryKm} miles/km.`, type: 'success' });
 
       }
   
@@ -444,8 +445,11 @@ const ShippingInfo1 = () => {
     };
     const fetchdata = async () => {
       try {
-        const response = await axios.get(`/api/admin/settings/get`);
-        setDeliveryKm(response.data.data[0].deliveryKm);
+        const response = await axios.get(`http://localhost:8000/api/admin/settings/getbyId`, {
+          params: { restaurantId } // Pass restaurantId as a query parameter
+        });
+        setDeliveryKm(response.data.data.deliveryKm);
+        console.log(deliveryKm)
       } catch (error) {
         console.error('Error fetching restaurant details:', error);
         // alert('Error fetching delivery & tax charges');

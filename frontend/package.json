@@ -91,7 +91,7 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://3.144.1.219:8000",
+  "proxy": "http://3.144.1.219:8000", 
   "devDependencies": {
     "@types/bootstrap": "^5.2.8",
     "jest": "^27.5.1",
