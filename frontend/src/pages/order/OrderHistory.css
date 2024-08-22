@@ -19,3 +19,8 @@
     color: rgb(9, 8, 8);
     /* text-shadow: 1px 1px #d8c895; */
    }
+
+   .pagination :hover {
+    background-color: white !important;
+    color: black !important;
+   }

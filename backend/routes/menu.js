@@ -29,19 +29,19 @@ router.route('/product/:id').get(getSingleMenu);
 // Admin Routes
 
 // Create New Product: POST /api/admin/product/new
-router.route('/admin/product/new').post( upload.array('images'), newProduct);
+router.route('/admin/product/new').post( upload.array('images'), authorizeRoles('Admin', 'superAdmin'), newProduct);
 
 // Get All Admin Products: GET /api/admin/products (Admin role required)
-router.route('/admin/products').get( getAdminProducts);
+router.route('/admin/products').get(isAuthenticatedUser,authorizeRoles('Admin', 'superAdmin'), getAdminProducts);
 
 // Get All Admin Products by brand: GET /api/admin/products (Admin role required)
-router.route('/admin/products/branch').post( getAdminMenusByBranch);
+router.route('/admin/products/branch').post(isAuthenticatedUser,authorizeRoles('Admin', 'superAdmin'), getAdminMenusByBranch);
 
 // Delete Product by ID: DELETE /api/admin/product/:id (Admin role required)
-router.route('/admin/product/:id').delete(isAuthenticatedUser,  deleteProduct); //authorizeRoles('admin'), 
+router.route('/admin/product/:id').delete(isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'),  deleteProduct); //authorizeRoles('admin'), 
 
 // Update Product by ID: PUT /api/admin/product/:id (Admin role required)
-router.route('/admin/product/:id').put(isAuthenticatedUser,  upload.array('images'), updateProduct);//authorizeRoles('admin'),
+router.route('/admin/product/:id').put(isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'),  upload.array('images'), updateProduct);//authorizeRoles('admin'),
 
 
 module.exports = router;    

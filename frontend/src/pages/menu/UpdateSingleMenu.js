@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Card } from 'react-bootstrap';
 import '../user/Profile.css';
@@ -37,7 +37,7 @@ const UpdateProduct = () => {
     'Other'
   ];
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onImagesChange = (e) => {
     const files = Array.from(e.target.files);
@@ -47,8 +47,8 @@ const UpdateProduct = () => {
 
       reader.onload = () => {
         if (reader.readyState === 2) {
-          setImagesPreview((oldArray) => [...oldArray, reader.result]);
-          setImages((oldArray) => [...oldArray, file]);
+          setImagesPreview([reader.result]); // Replace with new image preview
+          setImages([file]); // Replace with new image file
         }
       };
 
@@ -81,12 +81,13 @@ const UpdateProduct = () => {
 
       // alert('Product Updated Successfully!');
       setAlert({ message: 'Product Updated Successfully!', type: 'success' });
+      navigate('/admin/menus')
 
 
       setImages([]);
     } catch (error) {
       // alert(error.message || 'An error occurred');
-      setAlert({ message: error.message || 'An error occurred', type: 'error' });
+      setAlert({ message:  'Please enter a valid data', type: 'error' });
 
     }
   };
@@ -143,7 +144,7 @@ const UpdateProduct = () => {
               className="shadow-lg p-4"
               encType="multipart/form-data"
             >
-              <h1 className="mb-4">Update Product</h1>
+              <h1 className="mb-4 uppercase">EDIT MENU</h1>
 
               <div className="form-group mt-2">
                 <label htmlFor="name_field">Name</label>
@@ -161,10 +162,15 @@ const UpdateProduct = () => {
                 <label htmlFor="price_field">Price</label>
                 <input
                   style={{ backgroundColor: 'white', color: 'black' }}
-                  type="text"
+                  type="number"
                   id="price_field"
                   className="form-control mt-2"
-                  onChange={(e) => setPrice(e.target.value)}
+                  onChange={(e) =>{ 
+                    const value = e.target.value;
+                    if (value >= 0) { 
+                      setPrice(e.target.value)
+                    }
+                  } }
                   value={price}
                 />
               </div>
@@ -223,7 +229,7 @@ const UpdateProduct = () => {
                   style={{ backgroundColor: 'white', color: 'black' }}
                   type="checkbox"
                   id="stock_field"
-                  className="form-check-input mt-2"
+                  className=" mt-2"
                   onChange={onIsAvailableChange}
                   checked={isAvailable}
                 />

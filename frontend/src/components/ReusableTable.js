@@ -280,7 +280,7 @@ const ReusableTable = ({
         {onUpdate && (
           <td>
             <Button
-              className=" btn my-3 px-4 btn border border-danger rounded bg-white text-black "
+              className=" btn my-3 px-4 btn bg-white text-black "
               onClick={() => onUpdate(item._id)}
             >
               <FontAwesomeIcon icon={faEdit} />
@@ -356,7 +356,7 @@ const ReusableTable = ({
                 {header}
               </th>
             ))}
-            {onEdit && <th>Update</th>}
+            {onEdit && <th>View / Edit</th>}
             {onUpdate && <th> Update</th>}
             {update && <th> View</th>}
             {onViewDetails && <th> View</th>}

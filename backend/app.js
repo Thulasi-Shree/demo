@@ -9,6 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config({path:path.join(__dirname,"config/config.env")});
 app.use(express.json());
 app.use(cookieParser());
+const bodyParser = require('body-parser');
 app.use('/uploads', express.static(path.join(__dirname,'uploads') ) );
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -21,6 +22,9 @@ app.use((req, res, next) => {
 });
 
 app.use(cors());
+
+app.use(bodyParser.json()); // For parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 const auth = require('./routes/auth')
 const admin = require('./routes/admin')

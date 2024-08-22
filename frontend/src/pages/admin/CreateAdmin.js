@@ -56,7 +56,17 @@ const CreateAdmin = () => {
         ...formData,
         password: encryptedPassword
       });
-      setAlert({ message: 'Registration successful!', type: 'success' });
+      setAlert({ message: 'Registration successful! please verify your ', type: 'success' });
+      setFormData( {name: '',
+        lastName: '',
+        password: '',
+        confirmPassword: '',
+        email: '',
+        role: '',
+        confirmEmail: '',
+        phone: '',
+        restaurantBranch: '',
+        restaurantId: ''})
     } catch (error) {
       console.error('error', error.response.data.message);
       // alert(`${error.response.data.message}`);
@@ -93,7 +103,7 @@ const CreateAdmin = () => {
       )}
         <form onSubmit={handleSubmit} className='text-black'>
           <div>
-            <h2 className='text-black'>Create Admin</h2>
+            <h2 className='text-black uppercase'>Create Admin</h2>
           </div>
 
           <div className="mb-3">

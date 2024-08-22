@@ -1,13 +1,15 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import CustomAlert from 'components/utilities/Alert';
 
 const EditRestaurant = () => {
   const { id: restaurantId } = useParams();
   const [alert, setAlert] = useState({ message: '', type: '' });
+  const [isAvailable, setIsAvailable] = useState(false);
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     restaurantName: '',
@@ -23,12 +25,17 @@ const EditRestaurant = () => {
       country: ''
     },
     cuisineTypeCategory: '',
-    openingHours: ''
+    openingHours: '',
+   
   });
   const handleCloseAlert = () => {
     setAlert({ message: '', type: '' });
+    
   };
-
+  const validateOpeningHours = (value) => {
+    const timeRangeRegex = /^([01]?[0-9]|2[0-3]):([0-5][0-9]) - ([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    return timeRangeRegex.test(value);
+  };
   useEffect(() => {
     // Fetch existing restaurant data using the ID
     const fetchRestaurantData = async () => {
@@ -51,7 +58,8 @@ const EditRestaurant = () => {
             country: existingData.address.country || ''
           },
           cuisineTypeCategory: existingData.cuisineTypeCategory,
-          openingHours: existingData.openingHours
+          openingHours: existingData.openingHours,
+          isAvailable: existingData.isAvailable
         });
       } catch (error) {
         console.error('Error fetching restaurant data:', error);
@@ -62,7 +70,13 @@ const EditRestaurant = () => {
     // Call the fetchRestaurantData function
     fetchRestaurantData();
   }, [restaurantId]);
+  const handleCheckboxChange = (e) => {
+    setFormData({ ...formData });
+  };
 
+ const onIsAvailableChange = () => {
+    setIsAvailable((prevIsAvailable) => !prevIsAvailable);
+  };
   const handleChange = (e) => {
     if (e.target.name.startsWith('address.')) {
       // If the field belongs to the address, update it separately
@@ -81,19 +95,23 @@ const EditRestaurant = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!validateOpeningHours(formData.openingHours)) {
+      setAlert({ message: 'Please enter a valid time range in the format HH:MM - HH:MM', type: 'success' });
+      return;
+    }
     try {
-      await axios.put(`/api/restaurant/edit/${restaurantId}`, formData);
+      await axios.put(`/api/restaurant/edit/${restaurantId}`, formData, isAvailable);
       console.log('Restaurant updated successfully!');
 
       // alert('Restaurant updated successfully!');
       setAlert({ message: 'Restaurant updated successfully! ', type: 'success' });
+      
 
     } catch (error) {
       console.error('Error updating restaurant:', error);
 
       // alert('Error updating restaurant. Please try again.');
-      setAlert({ message: 'Error updating restaurant. Please try again.', type: 'error' });
+      setAlert({ message: 'Please provide the relevant information.', type: 'error' });
 
     }
   };
@@ -158,10 +176,15 @@ const EditRestaurant = () => {
               </label>
               <input
                 style={{ backgroundColor: 'white', color: 'black' }}
-                type="text"
+                type="number"
                 name="restaurantId"
                 value={formData.restaurantId}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value >= 0) { 
+                    handleChange(e);
+                  }
+                }}
                 required
                 placeholder="Field is required"
                 className={`form-control `}
@@ -211,10 +234,7 @@ const EditRestaurant = () => {
             <div className="mb-4">
               <label>
                 Address Line 2:
-                <span className="text-danger">
-                  {' '}
-                  <b>*</b>
-                </span>
+                
               </label>
               <input
                 style={{ backgroundColor: 'white', color: 'black' }}
@@ -222,8 +242,6 @@ const EditRestaurant = () => {
                 name="address.line2"
                 value={formData.address.line2}
                 onChange={handleChange}
-                required
-                placeholder="Field is required"
                 className={`form-control `}
               />
             </div>
@@ -278,10 +296,15 @@ const EditRestaurant = () => {
               </label>
               <input
                 style={{ backgroundColor: 'white', color: 'black' }}
-                type="text"
+                type="number"
                 name="address.postalCode"
                 value={formData.address.postalCode}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value >= 0) { 
+                    handleChange(e);
+                  }
+                }}
                 required
                 placeholder="Field is required"
                 className={`form-control `}
@@ -343,16 +366,27 @@ const EditRestaurant = () => {
                 </span>
               </label>
               <input
-                style={{ backgroundColor: 'white', color: 'black' }}
-                type="text"
-                name="openingHours"
-                value={formData.openingHours}
-                onChange={handleChange}
-                required
-                placeholder="Field is required"
-                className={`form-control `}
-              />
+      style={{ backgroundColor: 'white', color: 'black' }}
+      type="text"
+      name="openingHours"
+      value={formData.openingHours}
+      onChange={handleChange}
+      required
+      placeholder="e.g. 09:00 - 17:00"
+      className="form-control"
+    />
             </div>
+            {/* <div className="form-group mt-2">
+                <label htmlFor="stock_field1">Is Available</label>
+                <input
+                  style={{ backgroundColor: 'white', color: 'black' }}
+                  type="checkbox"
+                  id="stock_field1"
+                  className=" mt-2"
+                  onChange={onIsAvailableChange}
+                  checked={isAvailable}
+                />
+              </div> */}
             <div className="d-flex justify-content-center">
               <button type="submit" className="btn my-3 px-4 btn rounded w-100 my-4">
                 Update Restaurant

@@ -8,6 +8,7 @@ import CategoryList from './dietaryPreferenceCategoryList';
 import CategoryList1 from './MealTypeCategoryList';
 import './CreateMenu.css';
 import CustomAlert from 'components/utilities/Alert';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateMenu() {
   const [name, setName] = useState('');
@@ -16,6 +17,8 @@ export default function CreateMenu() {
   const [alert, setAlert] = useState({ message: '', type: '' });
   const [dietaryPreferenceCategory, setDietaryPreferenceCategory] =
     useState('');
+    const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+    const [selectedCategoryId1, setSelectedCategoryId1] = useState(null);
   const [mealTypeCategory, setMealTypeCategory] = useState('');
   const [dietaryCategories, setDietaryCategories] = useState([]);
   const [mealCategories, setMealCategories] = useState([]);
@@ -37,9 +40,12 @@ export default function CreateMenu() {
   const [viewCategoryModalOpen, setViewCategoryModalOpen] = useState(false);
   const [viewCategoryModalOpen1, setViewCategoryModalOpen1] = useState(false);
   const [error, setError] = useState(null);
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem('user'));  
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [showDeleteConfirmModal1, setShowDeleteConfirmModal1] = useState(false);
   const { role } = user;
 
+  const navigate = useNavigate()
   const onImagesChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -59,7 +65,9 @@ export default function CreateMenu() {
   const handleCheckboxChange = () => {
     setIsAvailable(!isAvailable); // Toggle the checkbox value
   };
-  
+  const handleAddMealCategoryClick = () => {
+    setAddMealCategoryModalOpen(!isAddMealCategoryModalOpen);
+  };
   const fetchDietaryCategories = async () => {
     await axios
       .get('/api/dietary-preferences')
@@ -75,11 +83,6 @@ export default function CreateMenu() {
       .catch((error) =>
         console.error('Error fetching meal categories:', error)
       );
-  };
-  const handleAddMealCategoryClick = () => {
-    setAddMealCategoryModalOpen(!isAddMealCategoryModalOpen);
-    fetchMealCategories1();
-    fetchMealCategories()
   };
   const handleSaveMealCategory = async () => {
     try {
@@ -97,6 +100,8 @@ export default function CreateMenu() {
 
       // Close the modal after successful addition
       setAddMealCategoryModalOpen(false);
+      setNewCategoryName('')
+setNewMealCategoryName('')
     } catch (error) {
       // Handle errors, e.g., show an error message
       // alert(error.message || 'An error occurred');
@@ -107,9 +112,6 @@ export default function CreateMenu() {
   const handleAddCategoryClick = () => {
     console.log('handleAddCategoryClick called');
     setAddCategoryModalOpen(!isAddCategoryModalOpen);
-    fetchDietaryCategories();
-    fetchMealCategories1();
-    fetchMealCategories()
   };
   const handleSaveCategory = async () => {
     try {
@@ -121,7 +123,8 @@ export default function CreateMenu() {
       // Handle success, e.g., show a success message
       // alert('Category Added Successfully!');
       setAlert({ message: 'Category Added Successfully!', type: 'success' });
-
+setNewCategoryName('')
+setNewMealCategoryName('')
       // Optionally, perform any other actions after successful category addition
       fetchDietaryCategories();
       // Close the modal after successful addition
@@ -138,7 +141,7 @@ export default function CreateMenu() {
       .get('/api/dietary-preferences')
       .then((response) => setCategories(response.data.data))
       .catch((error) =>
-        console.error('Error fetching dietary categories:', error)
+        console.error('Error fetching categories:', error)
       );
   };
   const fetchMealCategories = () => {
@@ -147,7 +150,7 @@ export default function CreateMenu() {
       .get('/api/meal-types')
       .then((response) => setCategories(response.data.data))
       .catch((error) =>
-        console.error('Error fetching dietary categories:', error)
+        console.error('Error fetching categories:', error)
       );
   };
 
@@ -162,43 +165,34 @@ export default function CreateMenu() {
     fetchMealCategories();
   };
 
-  const handleDeleteCategory = async (categoryId) => {
+  const handleDeleteCategory = async () => {
     try {
-      // Make an Axios DELETE request to remove the category
-      await axios.delete(`/api/dietary-preferences/${categoryId}`);
+      await axios.delete(`/api/dietary-preferences/${selectedCategoryId}`);
+      setAlert({ message: 'Category Deleted Successfully!', type: 'success' });
+      setAddCategoryModalOpen(false);
+      setViewCategoryModalOpen(false)
+      setViewCategoryModalOpen1(false)
+      setShowDeleteConfirmModal(false)
       fetchCategories();
       fetchDietaryCategories();
-      // Handle success, e.g., show a success message
-      // alert('Category Deleted Successfully!');
-      setAlert({ message: 'Category Deleted Successfully!', type: 'success' });
-      fetchCategories()
-      fetchMealCategories()
-
-      // Fetch updated categories after deleting a category
     } catch (error) {
-      // Handle errors, e.g., show an error message
-      // alert(error.message || 'An error occurred');
       setAlert({ message: error.message || 'An error occurred', type: 'error' });
     }
   };
-  const handleDeleteCategory1 = async (categoryId) => {
+
+  const handleDeleteCategory1 = async () => {
     try {
-      // Make an Axios DELETE request to remove the category
-      await axios.delete(`/api/meal-types/${categoryId}`);
-      // Handle success, e.g., show a success message
-      // alert('Category Deleted Successfully!');
+      await axios.delete(`/api/meal-types/${selectedCategoryId1}`);
       setAlert({ message: 'Category Deleted Successfully!', type: 'success' });
-      fetchCategories()
-      fetchDietaryCategories();
-      fetchMealCategories()
-
-
-      // Fetch updated categories after deleting a category
+      setAddCategoryModalOpen(false);
+      setAddMealCategoryModalOpen(false)
+      
+      setViewCategoryModalOpen(false)
+      setViewCategoryModalOpen1(false)
+      fetchMealCategories1();
+      fetchMealCategories();
     } catch (error) {
-      // Handle errors, e.g., show an error message
-      // alert(error.message || 'An error occurred');
       setAlert({ message: error.message || 'An error occurred', type: 'error' });
-
     }
   };
   const submitHandler = async (e) => {
@@ -231,6 +225,7 @@ export default function CreateMenu() {
       setAlert({ message: 'Menu Created Successfully!', type: 'success' });
 
 
+
       // navigate('/admin/products');
     } catch (error) {
       // console.error('Error creating product:', error);
@@ -239,13 +234,57 @@ export default function CreateMenu() {
       setError('Error creating menu. Please try again.');
     } finally {
       setLoading(false);
+      setName('');
+      setPrice('');
+      setIsAvailable(false);
+      setMealTypeCategory([]); // Reset to an empty string instead of 'Select'
+      setDietaryPreferenceCategory([]); // Reset to an empty string instead of 'Select'
+      setDietaryCategories([]);
+      setMealCategories([]);
+      setImages(['']);
+       setImagesPreview([]);
+      setDescription('');
+      if (role === 'superAdmin') {
+        setSelectedBranch(''); // Reset selected branch if superAdmin
+        setSelectedRestaurantId(''); // Reset selected restaurant ID
+      }
+      fetchCategories();
+      fetchDietaryCategories();
+      fetchMealCategories1();
+      fetchMealCategories();
     }
   };
   const handleCloseAlert = () => {
     setAlert({ message: '', type: '' });
+    navigate('/admin/menus')
   };
 
+  const handleShowDeleteConfirmModal1 = (selectedMealId) => {
+    setSelectedCategoryId1(selectedMealId)
+    setShowDeleteConfirmModal1(true);
+    setAddCategoryModalOpen(false);
+    setAddMealCategoryModalOpen(false)
+    setViewCategoryModalOpen(false)
+    setViewCategoryModalOpen1(false)
+  };
+  const handleShowDeleteConfirmModal = (selectedMealId) => {
+    setSelectedCategoryId(selectedMealId)
+    setShowDeleteConfirmModal(true);
+    setAddCategoryModalOpen(false);
+    setAddMealCategoryModalOpen(false)
+    setViewCategoryModalOpen(false)
+    setViewCategoryModalOpen1(false)
+  };
 
+  const handleCloseDeleteConfirmModal = (selectedMealId) => {
+    setSelectedCategoryId(selectedMealId)
+    setShowDeleteConfirmModal(false);
+    setSelectedRestaurantId(null);
+    setAddCategoryModalOpen(false);
+    setAddMealCategoryModalOpen(false)
+    setViewCategoryModalOpen(false)
+    setViewCategoryModalOpen1(false)
+  };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
     const { restaurantId, restaurantBranch } = user;
@@ -273,9 +312,6 @@ export default function CreateMenu() {
     }
   }, []);
   useEffect(() => {
-    fetchDietaryCategories();
-    fetchMealCategories1();
-    fetchMealCategories()
     // Update selected restaurantId based on the selectedBranch
     if (role === 'superAdmin') {
       const selectedBranchObject = restaurantBranch.find(
@@ -286,22 +322,20 @@ export default function CreateMenu() {
         setSelectedRestaurantId(selectedBranchObject.restaurantId);
       }
     }
-  }, [selectedBranch, restaurantBranch, mealTypeCategory]);
+  }, [selectedBranch, restaurantBranch]);
 
   return (
     <div className=" bg-white py-1 text-white">
       <div className="container-fluid bg-white text-black my-5">
         <Card className='Cardimg123 bg-white' >
-        {alert.message && (
-        <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
-      )}
+        
           <div className="my-5 text-black bg-white" >
             <form
               onSubmit={submitHandler}
-              className="address-container shadow-lg "
+              className="address-container"
               encType="multipart/form-data"
             >
-              <h4 className="my-5 mx-5 pt-4">Create Menu Item</h4>
+              <h4 className="mb-5 uppercase mx-5">Add a new Menu Item</h4>
               <div className="row">
                 <div className="col-xs-12 col-lg-6 col-md-12">
                   <div className="mb-4 mx-5">
@@ -334,13 +368,19 @@ export default function CreateMenu() {
                     </label>
                     <input
                       style={{ backgroundColor: 'white', color: 'black' }}
-                      type="text"
+                      type="number"
                       id="price_field"
                       required
                       placeholder="Field is required"
                       className={`form-control `}
-                      onChange={(e) => setPrice(e.target.value)}
-                      value={price}
+                      onChange={(e) =>{ 
+                        const value = e.target.value;
+                        if (value >= 0) { 
+                          setPrice(e.target.value)
+                        }
+                      } }
+                        value={price}
+                      step="any"
                     />
                   </div>
 
@@ -583,150 +623,164 @@ export default function CreateMenu() {
                 </div>
               </div>
             </form>
-            {isAddMealCategoryModalOpen && (
-              <Modal
-                show={isAddMealCategoryModalOpen}
-                onHide={() => setAddMealCategoryModalOpen(false)}
-                className="my-5"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Add Meal Category</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {/* Your Add Meal Category form or content goes here */}
-                  <Form>
-                    <Form.Group controlId="newMealCategoryName">
-                      <Form.Label>New Meal Category Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter meal category name"
-                        value={newMealCategoryName}
-                        onChange={(e) => setNewMealCategoryName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    className="my-global-button"
-                    onClick={() => setAddMealCategoryModalOpen(false)}
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    className="my-global-button"
-                    onClick={handleViewAllCategories1}
-                  >
-                    View all Category
-                  </Button>
-                  <Button
-                    className="my-global-button"
-                    onClick={handleSaveMealCategory}
-                  >
-                    Save
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            )}
-
-            {isAddCategoryModalOpen && (
-              <Modal
-                show={isAddCategoryModalOpen}
-                onHide={() => setAddCategoryModalOpen(false)}
-                className="my-5"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>Add Dietary Category</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  {/* Your Add Category form or content goes here */}
-                  <Form>
-                    <Form.Group controlId="newCategoryName">
-                      <Form.Label>New Category Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter category name"
-                        value={newCategoryName}
-                        onChange={(e) => setNewCategoryName(e.target.value)}
-                      />
-                    </Form.Group>
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    className="my-global-button"
-                    onClick={() => setAddCategoryModalOpen(false)}
-                  >
-                    Close
-                  </Button>
-                  <Button
-                    className="my-global-button"
-                    onClick={handleViewAllCategories}
-                  >
-                    View all Category
-                  </Button>
-                  <Button
-                    className="my-global-button"
-                    onClick={handleSaveCategory}
-                  >
-                    Save
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            )}
-            {viewCategoryModalOpen && (
-              <Modal
-                show={viewCategoryModalOpen}
-                onHide={() => setViewCategoryModalOpen(false)}
-                className="my-5"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>All Meal Categories</Modal.Title>
-                </Modal.Header>
-                <Modal.Body className="modal-body-centered">
-                  <CategoryList1
-                    categories={categories}
-                    onDeleteCategory1={handleDeleteCategory1}
-                  />
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    className="my-global-button"
-                    onClick={() => setViewCategoryModalOpen(false)}
-                  >
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            )}
-            {viewCategoryModalOpen1 && (
-              <Modal
-                show={viewCategoryModalOpen1}
-                onHide={() => setViewCategoryModalOpen1(false)}
-                className="my-5"
-              >
-                <Modal.Header closeButton>
-                  <Modal.Title>All Dietary Categories</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <CategoryList
-                    categories={categories}
-                    onDeleteCategory={handleDeleteCategory}
-                  />
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button
-                    className="my-global-button"
-                    onClick={() => setViewCategoryModalOpen1(false)}
-                  >
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            )}
+           
           </div>
         </Card>
+        {alert.message && (
+        <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
+      )}
       </div>
+      <Modal
+        show={isAddMealCategoryModalOpen}
+        onHide={handleAddMealCategoryClick}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Meal Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="newMealCategoryName">
+            <Form.Label>Meal Category Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter meal category name"
+              value={newMealCategoryName}
+              onChange={(e) => setNewMealCategoryName(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+        <Button
+                  variant="outline-primary"
+                  className="mt-2 ms-2"
+                  onClick={handleViewAllCategories1}
+                >
+                  View All Categories
+                </Button>
+          <Button variant="secondary" onClick={handleAddMealCategoryClick}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSaveMealCategory}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={isAddCategoryModalOpen} onHide={handleAddCategoryClick} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Dietary Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group controlId="newCategoryName">
+            <Form.Label>Category Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter category name"
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+              <Button
+                  variant="outline-primary"
+                  className="mt-2 ms-2"
+                  onClick={handleViewAllCategories}
+                >
+                  View All Categories
+                </Button>
+          <Button variant="secondary" onClick={handleAddCategoryClick}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSaveCategory}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={viewCategoryModalOpen1}
+        onHide={() => setViewCategoryModalOpen1(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>View All Dietary Categories</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CategoryList
+            categories={categories}
+            onDeleteCategory={handleShowDeleteConfirmModal}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setViewCategoryModalOpen1(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={viewCategoryModalOpen}
+        onHide={() => setViewCategoryModalOpen(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>View All Meal Categories</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CategoryList1
+            categories={categories}
+            onDeleteCategory1={handleShowDeleteConfirmModal1}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setViewCategoryModalOpen(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showDeleteConfirmModal1}
+        onHide={handleCloseDeleteConfirmModal}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this menu item?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteConfirmModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteCategory1}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal
+        show={showDeleteConfirmModal}
+        onHide={handleCloseDeleteConfirmModal}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this ?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseDeleteConfirmModal}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleDeleteCategory}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      
     </div>
   );
 }

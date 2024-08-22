@@ -10,10 +10,9 @@ margin: 2px;
 }
 
 .pagination {
-  display: flex;
-  justify-content: center;
+  display: flex !important;
+  justify-content: center !important;
   list-style: none;
-  padding: 0;
   color: white !important;
   text-decoration: none !important;
 }
@@ -25,7 +24,7 @@ margin: 2px;
   font-size: 14px;
   padding: 8px;
   border-radius: 4px;
-  color: white;
+  color: rgb(0, 0, 0);
   text-decoration: none !important;
 }
 
@@ -35,11 +34,10 @@ margin: 2px;
 }
 
 .pagination li.active {
-  color: #3c3b3b;
+  color: #000000;
 }
 
 .pagination li:hover {
-  background-color: #151414;
   text-decoration: none !important;
 }
 
@@ -57,4 +55,28 @@ margin: 2px;
   background-size: cover;
   background-position: center;
 }
+
+.pagination {
+  background-color: white;
+}
+
+.pagination li {
+  display: inline-block;
+  margin: 0 5px;
+}
+
+.pagination li a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid #ddd;
+  transition: background-color 0.3s ease;
+}
+
+.pagination li a:hover {
+  background-color: white;
+  color: black;
+}
+
 

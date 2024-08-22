@@ -85,6 +85,29 @@ position: relative;
 }
 
 
+.navbar-brand-hidden {
+  display: none;
+}
+
+.navbar-expand-lg .navbar-expand-lg-show .navbar-brand-hidden {
+  display: block;
+}
+/* header.css */
+
+/* Make sure the navbar toggle button is positioned to the left */
+.navbar-toggler-left {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 10px; /* Adjust as needed */
+  
+}
+
+/* Ensure the Navbar component has relative positioning */
+.custom-navbar {
+  position: relative;
+}
 
 
 @media screen and (min-width:250px) and (max-width:989px){

@@ -1,10 +1,15 @@
-
 const express = require('express');
 const router = express.Router();
-const settingsController = require('../controllers/settings/Settings')
+const settingsController = require('../controllers/settings/Settings');
 const { isAuthenticatedUser } = require('../middlewares/authenticate');
 
-router.put('/admin/settings', settingsController.updateSettings); 
-router.get('/admin/settings/get', settingsController.getSettings); 
+// Route to create settings
+router.route('/admin/settings/create').post( settingsController.createSetting);
+
+// Route to update settings
+router.route('/admin/settings/update').put( settingsController.updateSettings);
+
+// Route to get settings
+router.route('/admin/settings/get').get( settingsController.getSettings);
 
 module.exports = router;

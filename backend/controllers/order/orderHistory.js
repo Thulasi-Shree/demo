@@ -226,9 +226,44 @@ const getNotification = catchAsyncError(async (req, res, next) => {
     }
 });
 
+const getExpiredOrdersByBranch = catchAsyncError(async (req, res, next) => {
+    const { restaurantId, startDate, endDate, orderType, page, pageSize } = req.body;
+
+    try {
+        const query = {
+            orderStatus: { $nin: 'Delivered' }, // Filter out "Delivered" orders
+            orderType: orderType,
+            orderDate: { $gte: new Date(startDate), $lte: new Date(endDate) }
+        };
+
+        if (restaurantId && restaurantId !== 'all') {
+            query.restaurantId = restaurantId;
+        }
+
+        const orders = await Order.find(query)
+            .skip(page * pageSize)
+            .limit(pageSize)
+            .sort({ orderDate: -1 }); // Sort by order date, newest first
+
+        const totalOrders = await Order.countDocuments(query);
+        const totalPrice = orders.reduce((sum, order) => sum + order.totalPrice, 0);
+
+        res.json({
+            nonActiveOrders: orders,
+            totalOrders,
+            totalPrice
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
 module.exports = {
     getActiveOrdersByBranch,
     getNonActiveOrdersByBranch,
     getNonActiveOrdersByBranch1,
-    getNotification
+    getNotification,
+    getExpiredOrdersByBranch
 };

@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Card } from 'react-bootstrap';
 import CustomAlert from 'components/utilities/Alert';
+import { useNavigate } from 'react-router-dom';
 
 const CreateRestaurant = () => {
   const [formData, setFormData] = useState({
-    restaurantName: '',
+    restaurantName: 'Grand India - Restaurant & Catering',
     restaurantBranch: '',
     restaurantId: '',
     description: '',
@@ -23,7 +24,7 @@ const CreateRestaurant = () => {
     openingHours: ''
   });
   const [alert, setAlert] = useState({ message: '', type: '' });
-
+  const navigate = useNavigate()
   const resetFormData = () => {
     setFormData({
       restaurantName: '',
@@ -63,12 +64,20 @@ const CreateRestaurant = () => {
   };
   const handleCloseAlert = () => {
     setAlert({ message: '', type: '' });
-  };
+    
 
+  };
+  const validateOpeningHours = (value) => {
+    const timeRangeRegex = /^([01]?[0-9]|2[0-3]):([0-5][0-9]) - ([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    return timeRangeRegex.test(value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    if (!validateOpeningHours(formData.openingHours)) {
+      setAlert({ message: 'Please enter a valid time range in the format HH:MM - HH:MM', type: 'success' });
+      return;
+    }
     try {
       await axios.post('/api/restaurant/create', formData);
       console.log('Restaurant created successfully!');
@@ -87,9 +96,10 @@ const CreateRestaurant = () => {
   return (
     <div className="bg-white text-black py-4">
       <Card className="col-md-5 container py-4 my-5 Cardimg123">
-        <h4 className='text-black'>Create a New Restaurant</h4>
+        <h4 className='text-black uppercase'>Create a New Restaurant</h4>
         {alert.message && (
         <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
+
       )}
         <form onSubmit={handleSubmit} className="address-container">
           {/* Add input fields for each restaurant property */}
@@ -144,10 +154,16 @@ const CreateRestaurant = () => {
             </label>
             <input
               style={{ backgroundColor: 'white', color: 'black' }}
-              type="text"
+              type="number"
               name="restaurantId"
               value={formData.restaurantId}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
+          
               required
               placeholder="Field is required"
               className={`form-control `}
@@ -196,10 +212,10 @@ const CreateRestaurant = () => {
           <div className="mb-4">
             <label>
               Address Line 2:
-              <span className="text-danger">
+              {/* <span className="text-danger">
                 {' '}
                 <b>*</b>
-              </span>
+              </span> */}
             </label>
             <input
               style={{ backgroundColor: 'white', color: 'black' }}
@@ -207,7 +223,7 @@ const CreateRestaurant = () => {
               name="address.line2"
               value={formData.address.line2}
               onChange={handleChange}
-              required
+              // required
               placeholder="Field is required"
               className={`form-control `}
             />
@@ -263,10 +279,15 @@ const CreateRestaurant = () => {
             </label>
             <input
               style={{ backgroundColor: 'white', color: 'black' }}
-              type="text"
+              type="number"
               name="address.postalCode"
               value={formData.address.postalCode}
-              onChange={handleChange}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
               required
               placeholder="Field is required"
               className={`form-control `}
@@ -303,11 +324,12 @@ const CreateRestaurant = () => {
             </label>
             <input
               style={{ backgroundColor: 'white', color: 'black' }}
-              type="text"
+              type="number"
               name="address.latitude"
               value={formData.address.latitude}
               onChange={handleChange}
               required
+               step="0.00000001"
               placeholder="Field is required"
               className={`form-control `}
             />
@@ -324,11 +346,12 @@ const CreateRestaurant = () => {
             </label>
             <input
               style={{ backgroundColor: 'white', color: 'black' }}
-              type="text"
+              type="number"
               name="address.longitude"
               value={formData.address.longitude}
               onChange={handleChange}
               required
+              step="0.00000001"
               placeholder="Field is required"
               className={`form-control `}
             />
@@ -361,24 +384,24 @@ const CreateRestaurant = () => {
           </div>
 
           <div className="mb-3">
-            <label>
-              Opening Hours:{' '}
-              <span className="text-danger">
-                {' '}
-                <b>*</b>
-              </span>
-            </label>
-            <input
-              style={{ backgroundColor: 'white', color: 'black' }}
-              type="text"
-              name="openingHours"
-              value={formData.openingHours}
-              onChange={handleChange}
-              required
-              placeholder="Field is required"
-              className={`form-control `}
-            />
-          </div>
+    <label>
+      Opening Hours:{' '}
+      <span className="text-danger">
+        {' '}
+        <b>*</b>
+      </span>
+    </label>
+    <input
+      style={{ backgroundColor: 'white', color: 'black' }}
+      type="text"
+      name="openingHours"
+      value={formData.openingHours}
+      onChange={handleChange}
+      required
+      placeholder="e.g. 09:00 - 17:00"
+      className="form-control"
+    />
+  </div>
           <div className="d-flex justify-content-center">
             <button className=" btn my-3 px-4 btn rounded w-100" type="submit">
               Create Restaurant

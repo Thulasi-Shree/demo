@@ -93,7 +93,7 @@ export default function UpdateProfile() {
           encType="multipart/form-data"
         >
           <div className="mt-4 px-3">
-            <h4 className="mt-4 my-3">Update Profile</h4>
+            <h4 className="mt-4 uppercase my-3">Update Profile</h4>
           </div>
 
           <div className="form-group mx-5 my-2">

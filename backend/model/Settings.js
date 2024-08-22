@@ -14,8 +14,22 @@ const SettingsSchema = new mongoose.Schema({
   taxAmount: {
     type: Number,
     required: true,
-    default: 0
+    default: 0,    
+  },
+  deliveryKm:{
+    type: Number,
+    // required: true,
+    default: 0,    
+  },
+  restaurantId: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  restaurantBranch:{
+    type: String,
+    required: true
   }
 });
 
-module.exports = mongoose.model('Settings', SettingsSchema);
+module.exports = mongoose.model('settings', SettingsSchema);

@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { NavDropdown, Stack } from 'react-bootstrap';
 import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
 import './header.css';
 import axios from 'axios'
 
@@ -83,7 +83,7 @@ const Header = () => {
           </Navbar.Brand>
         )}
       </div> */}
-          <Navbar.Brand className="col-md-1 ">
+          <Navbar.Brand className="col-md-1 mx-auto  ">
             <Nav.Link as={Link} to="/">
               <img
                 src={require('../assets/img/grandIndiaLogo1.png')}
@@ -93,13 +93,17 @@ const Header = () => {
             </Nav.Link>
           </Navbar.Brand>  
           <Navbar.Toggle
-            aria-controls="responsive-navbar-nav"
-            onClick={handleNavbarToggle}
-            style={{ border: '2px solid orange' }}
-          >
-            {' '}
-            <FontAwesomeIcon icon={faBars} style={{ color: 'orange' }} />
-          </Navbar.Toggle>
+  className="navbar-toggler-left"
+  aria-controls="responsive-navbar-nav"
+  onClick={handleNavbarToggle}
+  style={{ border: '2px solid orange', position: 'absolute', top: '32px', left: '10px' }}
+>
+  <FontAwesomeIcon
+    className='no-border'
+    icon={navbarExpanded ? faTimes : faBars}
+    style={{ color: 'orange' }}
+  />
+</Navbar.Toggle>
       
           <Navbar.Collapse id="responsive-navbar-nav">
        

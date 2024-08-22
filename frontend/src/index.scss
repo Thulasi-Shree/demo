@@ -84,6 +84,12 @@ body{
   align-items: center;
   justify-content: center;
 }
+.uppercase {
+  text-transform: uppercase;
+  font-size: 20px !important; /* Adjust the size as needed */
+  text-align: center;
+  font-weight: medium !important;
+}
 
 /* Modal Content/Box */
 .modal-content {

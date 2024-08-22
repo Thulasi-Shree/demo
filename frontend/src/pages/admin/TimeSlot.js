@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Modal } from 'react-bootstrap';
+import CustomAlert from 'components/utilities/Alert';
+
 
 // Axios instance
 const axiosInstance = axios.create({
@@ -81,7 +84,9 @@ const TimeSlotManager = () => {
   const [error, setError] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
   const [restaurantName, setRestaurantName] = useState('');
-
+  const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+  const [alert, setAlert] = useState({ message: '', type: '' });
 
   // Fetch all restaurants
   const fetchRestaurants = async () => {
@@ -112,6 +117,10 @@ const TimeSlotManager = () => {
   }, []);
 
   const addTimeSlot = async () => {
+    if (!validateOpeningHours(newTimeSlot)) {
+      setAlert({ message: 'Please enter a valid time range in the format HH:MM - HH:MM', type: 'success' });
+      return;
+    }
     if (!newTimeSlot || !restaurantId || !restaurantBranch || !restaurantName) {
       setError('Please fill in all fields');
       return;
@@ -136,10 +145,33 @@ const TimeSlotManager = () => {
     }
     setLoading(false);
   };
+  const validateOpeningHours = (value) => {
+    const timeRangeRegex = /^([01]?[0-9]|2[0-3]):([0-5][0-9]) - ([01]?[0-9]|2[0-3]):([0-5][0-9])$/;
+    return timeRangeRegex.test(value);
+  };
 
+  const handleShowDeleteConfirmModal = (menuId) => {
+    setSelectedId(menuId);
+    setShowDeleteConfirmModal(true);
+  };
 
+  const handleCloseDeleteConfirmModal = () => {
+    setShowDeleteConfirmModal(false);
+    setSelectedId(null);
+  };
+  const handleCloseAlert = () => {
+    setAlert({ message: '', type: '' });
+    setNewTimeSlot('')
+    setUpdatedTimeSlot('')
+
+    
+  };
   // Update a time slot by ID
   const updateTimeSlot = async (id) => {
+    if (!validateOpeningHours(updatedTimeSlot)) {
+      setAlert({ message: 'Please enter a valid time range in the format HH:MM - HH:MM', type: 'success' });
+      return;
+    }
     if (!updatedTimeSlot) {
       setError('Please enter an updated time slot');
       return;
@@ -168,6 +200,7 @@ const TimeSlotManager = () => {
     try {
       await axiosInstance.delete(`/time-slot/${id}`);
       setTimeSlots(timeSlots.filter((slot) => slot._id !== id));
+      handleCloseDeleteConfirmModal()
     } catch (error) {
       setError('Error deleting time slot');
     }
@@ -184,21 +217,28 @@ const TimeSlotManager = () => {
   return (
     <Container className='m-5 bg-white mx-auto Cardimg123'>
       <Title>Time Slot Manager</Title>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
+      {alert.message && (
+        <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
 
+      )}
       <Section>
         <h2>Add New Time Slot</h2>
-        <Input
-          type="text"
-          value={newTimeSlot}
-          onChange={(e) => setNewTimeSlot(e.target.value)}
-          placeholder="Enter new time slot"
-        />
+        
+         <input
+      style={{ backgroundColor: 'white', color: 'black' }}
+      type="text"
+      name="TimeSlotnew"
+      value={newTimeSlot}
+      onChange={(e) => setNewTimeSlot(e.target.value)}
+      required
+      placeholder="e.g. 09:00 - 17:00"
+      className="form-control"
+    />
         <Select value={restaurantId} onChange={handleRestaurantChange}>
           <option value="">Select Restaurant</option>
           {restaurants.map((restaurant) => (
             <option key={restaurant._id} value={restaurant._id}>
-              {restaurant.restaurantId}
+              {restaurant.restaurantBranch}
             </option>
           ))}
         </Select>
@@ -217,12 +257,17 @@ const TimeSlotManager = () => {
       {selectedTimeSlot && (
         <Section>
           <h2>Update Time Slot</h2>
-          <Input
-            type="text"
-            value={updatedTimeSlot}
-            onChange={(e) => setUpdatedTimeSlot(e.target.value)}
-            placeholder="Enter updated time slot"
-          />
+          
+           <input
+      style={{ backgroundColor: 'white', color: 'black' }}
+      type="text"
+      name="TimeSlot"
+      value={updatedTimeSlot}
+      onChange={(e) => setUpdatedTimeSlot(e.target.value)}
+      required
+      placeholder="e.g. 09:00 - 17:00"
+      className="form-control"
+    />
           <Button className='btn ' onClick={() => updateTimeSlot(selectedTimeSlot._id)} disabled={loading}>
             {loading ? 'Updating...' : 'Update Time Slot'}
           </Button>
@@ -248,7 +293,7 @@ const TimeSlotManager = () => {
                   <TableCell>{slot.slot}</TableCell>
                   <TableCell>{slot.restaurantBranch}</TableCell>
                   <TableCell>
-                    <Button className='border border-warning rounded m-2' onClick={() => deleteTimeSlot(slot._id)}>Delete</Button>
+                    <Button className='border border-warning rounded m-2' onClick={() => handleShowDeleteConfirmModal(slot._id)}>Delete</Button>
                     <Button
                       className='border border-warning rounded'
                       onClick={() => {
@@ -268,6 +313,22 @@ const TimeSlotManager = () => {
           </Table>
         )}
       </Section>
+      <Modal show={showDeleteConfirmModal} onHide={handleCloseDeleteConfirmModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete?
+        </Modal.Body>
+        <Modal.Footer>
+          <Button className='btn' onClick={handleCloseDeleteConfirmModal}>
+            Cancel
+          </Button>
+          <Button  className='btn' onClick={() => deleteTimeSlot(selectedId)}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
