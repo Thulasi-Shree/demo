@@ -14,7 +14,7 @@ router.get(
   
 
 // Get All Users for Admin: GET /api/admin/users
-router.get('/admin/search/users', isAuthenticatedUser, authorizeRoles( 'superAdmin'),  adminController.searchUser, );
+router.get('/admin/search/users', isAuthenticatedUser, authorizeRoles( 'superAdmin'), adminController.searchUser, );
 
 // Get All Users for Admin: GET /api/admin/admins
 router.get('/admin/admins',  isAuthenticatedUser, authorizeRoles('superAdmin'), adminController.getAllAdmins);

@@ -49,7 +49,7 @@ router.post('/password/forgot', forgotPasswordController.forgotPassword);
 router.put('/password/reset/:token', resetPasswordController.resetPassword);
 
 // Get User Profile: GET /api/myprofile/:token   
-router.get('/myprofile/:token',  isAuthenticatedUser,  profileController.getUserProfile);
+router.get('/myprofile/:token',  isAuthenticatedUser,  profileController.getUserProfile); 
 router.route('/myprofile').get(isAuthenticatedUser, loginController.getUserProfile);
 
 // Change Password: PUT /api/password/change/:id
