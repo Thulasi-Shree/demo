@@ -33,9 +33,6 @@ margin: 2px;
   font-size:18px;
 }
 
-.pagination li.active {
-  color: #000000;
-}
 
 .pagination li:hover {
   text-decoration: none !important;

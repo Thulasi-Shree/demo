@@ -49,21 +49,48 @@ const ConfirmOrder = () => {
   const [minDeliveryCharge, setMinDeliveryCharge] = useState('');
   const [tax, setTax] = useState('');
   // const userData = JSON.parse(localStorage.getItem('user'));
+  // const fetchdata = async () => {
+  //   try {
+  //     const response = await axios.get(`/api/admin/settings/get`, {
+
+  //     });
+  //     setDeliveryChargePerKm(response.data.data[0].deliveryChargePerKm);
+  //     setMinDeliveryCharge(response.data.data[0].minDeliveryCharge);
+  //     setTax(response.data.data[0].taxAmount);
+  //   } catch (error) {
+  //     // console.error('Error fetching restaurant details:', error.message);
+  //     // alert('Error fetching delivery & tax charges');
+  //     setAlert({ message: 'Error fetching delivery & tax charges', type: 'error' });
+
+  //   }
+  // };
   const fetchdata = async () => {
     try {
-      const response = await axios.get(`/api/admin/settings/get`, {
-
+      const response = await axios.get(`/api/admin/settings/getbyId`, {
+        params: { restaurantId } // Pass restaurantId as a query parameter
       });
-      setDeliveryChargePerKm(response.data.data[0].deliveryChargePerKm);
-      setMinDeliveryCharge(response.data.data[0].minDeliveryCharge);
-      setTax(response.data.data[0].taxAmount);
+      
+      // if (Array.isArray(response.data.data) && response.data.data.length > 0) {
+        const settings = response.data.data;
+        setDeliveryChargePerKm(settings.deliveryChargePerKm || 0);
+        setMinDeliveryCharge(settings.minDeliveryCharge || 0);
+        setTax(settings.taxAmount || 0);
+      // } else {
+        // setAlert({ message: 'No settings found for this restaurant', type: 'warning' });
+      // }
     } catch (error) {
-      // console.error('Error fetching restaurant details:', error.message);
-      // alert('Error fetching delivery & tax charges');
+      console.error('Error fetching restaurant details:', error.message);
       setAlert({ message: 'Error fetching delivery & tax charges', type: 'error' });
-
     }
   };
+  
+  useEffect(() => {
+    if (restaurantId) {
+      fetchRestaurantBranch();
+      fetchdata();
+      setLoading(false);
+    }
+  }, [restaurantId]);
   const handleCloseAlert = () => {
     setAlert({ message: '', type: '' });
   };

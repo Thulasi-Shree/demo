@@ -202,7 +202,7 @@ const MenuList = () => {
   const [menuData, setMenuData] = useState([]);
   const [restaurant, setRestaurant] = useState([]);
   const [alert, setAlert] = useState({ message: '', type: '' });
-  const [selectedBranch, setSelectedBranch] = useState(restaurantId || '');
+  const [selectedBranch, setSelectedBranch] = useState(restaurantId || 'all');
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [selectedMenuId, setSelectedMenuId] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -343,8 +343,7 @@ const MenuList = () => {
                       value={selectedBranch}
                       onChange={handleBranchChange}
                     >
-                       <option value="">Select</option>
-                      {/* <option value="all">All</option> */}
+                      <option value="all">All</option>
                       {restaurant &&
                         restaurant.map((restaurant) => (
                           <option

@@ -1,9 +1,9 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-alert */
 import React, { useState } from 'react';
 import axios from 'axios';
-import './contactUs.css';
+import { Modal, Button, Form } from 'react-bootstrap';
 import CustomAlert from 'components/utilities/Alert';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './contactUs.css';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +13,10 @@ const ContactUs = () => {
     message: ''
   });
   const [alert, setAlert] = useState({ message: '', type: '' });
+  const [show, setShow] = useState(false); // To control the modal
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const handleCloseAlert = () => {
     setAlert({ message: '', type: '' });
@@ -29,157 +33,89 @@ const ContactUs = () => {
       const response = await axios.post('api/send-email', formData);
       console.log(response);
 
-      // alert('Email sent successfully');
-      setAlert({ message:'Email sent successfully!' , type: 'success' });
-
+      setAlert({ message: 'Email sent successfully!', type: 'success' });
       setFormData({
         fullName: '',
         email: '',
         subject: '',
         message: ''
       });
-    } catch (error) {
-      // console.error('Error sending email:', error);
-      // alert('Error sending email');
-      setAlert({ message: 'Error sending email!', type: 'error' });
 
-      // Handle the error (show error message or redirect)
+          
+      // Re-enable the submit button
+      document.querySelector('#contact').disabled = false;
+    } catch (error) {
+      setAlert({ message: 'Error sending email!', type: 'error' });
+      document.querySelector('#contact').disabled = false;
     }
   };
 
   return (
     <div className='mx-auto address-container'>
-      {/* Button to open modal */}
-      <div
-        type="button"
-        data-bs-toggle="modal"
-        className="btn my-3 px-4 btn rounded"
-        data-bs-target="#contactModal"
-      >
+      <Button variant="primary" onClick={handleShow}>
         Contact Us
-      </div>
+      </Button>
 
-      {/* Modal */}
-      <div
-        className="modal fade bg-transparent"
-        id="contactModal"
-        style={{ backgroundColor: 'transparent' }}
-        tabIndex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" id="CardText1">
-          <div className="modal-content bg-white CardImg114">
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Contact Us</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           {alert.message && (
-        <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
-      )}
-            <div className="modal-header">
-              <h5 className="modal-title " id="exampleModalLabel">
-                Contact Us
-              </h5>
-              <button
-                type="button"
-                className="btn-close "
-                data-bs-dismiss="modal"
-                aria-label="Close"
+            <CustomAlert message={alert.message} type={alert.type} onClose={handleCloseAlert} />
+          )}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="formFullName">
+              <Form.Label>Full Name <span className="text-danger"> <b>*</b> </span></Form.Label>
+              <Form.Control
+                type="text"
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleChange}
+                placeholder="Field is required"
+                required
               />
-            </div>
-            <div className="modal-body">
-              {/* Contact form */}
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label
-                    htmlFor="fullName"
-                    className="form-label text-black"
-                    placeholder="Field is required"
-                    required
-                  >
-                    Full Name<span className="text-danger">
-                    {' '}
-                    <b>*</b>
-                    </span>
-                  </label>
-                  
-                  <input
-                    type="text"
-                    style={{ backgroundColor: 'white', color: 'black' }}
-                    className="form-control border "
-                    id="fullName"
-                    name="fullName"
-                     placeholder="Field is required"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="email" className="form-label text-black">
-                    Email Address <span className="text-danger">
-                    {' '}
-                    <b>*</b>
-                    </span>
-                  </label>
-                 
-                  <input
-                    type="email"
-                     placeholder="Field is required"
-                    style={{ backgroundColor: 'white', color: 'black' }}
-                    className="form-control border "
-                    id="email"
-                    name="email"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3">
-                  <label htmlFor="subject" className="form-label text-black">
-                    Subject<span className="text-danger">
-                    {' '}
-                    <b>*</b>
-                    </span>
-                  </label>
-                  
-                  <input
-                    type="text"
-                     placeholder="Field is required"
-                    style={{ backgroundColor: 'white', color: 'black' }}
-                    className="form-control border "
-                    id="subject"
-                    name="subject"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="mb-3 ">
-                  <label htmlFor="message" className="form-label text-black">
-                    Message<span className="text-danger">
-                    {' '}
-                    <b>*</b>
-                    </span>
-                  </label>
-                  
-                  <textarea
-                    style={{ backgroundColor: 'white', color: 'black' }}
-                    className="form-control border "
-                    id="message"
-                    name="message"
-                     placeholder="Field is required"
-                    rows="4"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  id="contact"
-                  className="btn my-3 px-4 btn border rounded w-100"
-                >
-                  Send
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email Address <span className="text-danger"> <b>*</b> </span></Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Field is required"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formSubject">
+              <Form.Label>Subject <span className="text-danger"> <b>*</b> </span></Form.Label>
+              <Form.Control
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                placeholder="Field is required"
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formMessage">
+              <Form.Label>Message <span className="text-danger"> <b>*</b> </span></Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={4}
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Field is required"
+                required
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" id="contact">
+              Send
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 };

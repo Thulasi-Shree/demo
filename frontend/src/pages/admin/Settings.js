@@ -312,7 +312,12 @@ const Settings = ({ token }) => {
               className="form-control" 
               name="minDeliveryCharge" 
               value={settings.minDeliveryCharge} 
-              onChange={handleChange} 
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
               placeholder="Min Delivery Charge" 
               required 
             />
@@ -324,7 +329,12 @@ const Settings = ({ token }) => {
               className="form-control" 
               name="taxAmount" 
               value={settings.taxAmount} 
-              onChange={handleChange} 
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
               placeholder="Tax Amount" 
               required 
             />
@@ -336,7 +346,12 @@ const Settings = ({ token }) => {
               className="form-control" 
               name="deliveryChargePerKm" 
               value={settings.deliveryChargePerKm} 
-              onChange={handleChange} 
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
               placeholder="Delivery Charge Per Km" 
               required 
             />
@@ -348,7 +363,12 @@ const Settings = ({ token }) => {
               className="form-control" 
               name="deliveryKm" 
               value={settings.deliveryKm} 
-              onChange={handleChange} 
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value >= 0) { 
+                  handleChange(e);
+                }
+              }}
               placeholder="Delivery KM" 
             />
           </div>
