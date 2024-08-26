@@ -61,9 +61,9 @@ router.route('/admin/orders').get(  isAuthenticatedUser, authorizeRoles( 'superA
 
 // Get All Orders for Admin: GET /api/admin/orders (Admin role required) ordersActivePickup
 router.route('/admin/orders/active').get( ordersActive);//isAuthenticatedUser, authorizeRoles('admin'),
-router.route('/admin/orders/activeDelivery').get(  isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'), ordersActivePickup);
+router.route('/admin/orders/activeDelivery').get(  isAuthenticatedUser, authorizeRoles('admin', 'superAdmin'), ordersActivePickup);
 // Update Order Status by ID: PUT /api/admin/order/:id (Admin role required)
-router.route('/admin/order/:id').put(isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'), updateOrderStatus); //authorizeRoles('admin'),
+router.route('/admin/order/:id').put(isAuthenticatedUser, authorizeRoles('admin', 'superAdmin'), updateOrderStatus); //authorizeRoles('admin'),
 
 // Delete Order by ID: DELETE /api/admin/order/:id (Admin role required)  
 router.route('/admin/order/:id').delete(isAuthenticatedUser, authorizeRoles('admin'), deleteOrder);
@@ -78,7 +78,7 @@ router.route('/update/time-slot/:id').put(isAuthenticatedUser,  updateTimeSlotBy
 router.route('/time-slot/:id').delete(isAuthenticatedUser, deleteTimeSlotById);
 
 // Get Active Orders by Restaurant ID: GET /api/admin/orderHistory-active/:restaurantId (Admin role required)
-router.route('/admin/order/active').get( isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'),getActiveOrdersByBranch);
+router.route('/admin/order/active').get( isAuthenticatedUser, authorizeRoles('admin', 'superAdmin'),getActiveOrdersByBranch);
 
 // Get Non-Active Orders by Restaurant ID: GET /api/admin/orderHistory-nonActive/:restaurantId (Admin role required)
 router.route('/admin/orderHistory-nonActive').post(isAuthenticatedUser, getNonActiveOrdersByBranch);

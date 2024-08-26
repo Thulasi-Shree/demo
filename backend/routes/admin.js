@@ -12,7 +12,7 @@ router.get('/admin/search/users', isAuthenticatedUser, authorizeRoles( 'superAdm
 router.get('/admin/admins',  isAuthenticatedUser, authorizeRoles('superAdmin'), adminController.getAllAdmins);
 
 // Get User by ID for Admin: GET /api/admin/user/:id
-router.get('/admin/user/:id',  isAuthenticatedUser, authorizeRoles('Admin', 'superAdmin'), adminController.getUser);
+router.get('/admin/user/:id',  isAuthenticatedUser, authorizeRoles('admin', 'superAdmin'), adminController.getUser);
 
 // Update User by ID for Admin: PUT /api/admin/user/:id
 router.put('/admin/user/:id',  adminController.updateUser);
@@ -21,7 +21,7 @@ router.put('/admin/user/:id',  adminController.updateUser);
 router.delete('/admin/user/:id', adminController.deleteUser);
 
 // Get All Users for Admin: GET /api/admin/users
-router.get('/admin/users', isAuthenticatedUser,  authorizeRoles( 'superAdmin'), adminController.getAllUsers );
+router.route('/admin/users').get(isAuthenticatedUser,  authorizeRoles( 'superAdmin'), adminController.getAllUsers );
   
 
 module.exports = router;
