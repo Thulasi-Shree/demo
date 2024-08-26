@@ -5,7 +5,7 @@ const adminController = require('../controllers/admin/index');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/authenticate');
 
 // Get All Users for Admin: GET /api/admin/users
-router.get('/admin/users/get', adminController.getAllUsers );
+router.get('/admin/users', adminController.getAllUsers );
   
 
 // Get All Users for Admin: GET /api/admin/users
