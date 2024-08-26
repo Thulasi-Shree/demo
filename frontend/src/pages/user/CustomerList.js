@@ -250,10 +250,10 @@ const CustomerList = () => {
 
       if (searchInput) {
         response = await axios.get(
-          `http://localhost:8000/api/admin/users?&keyword=${searchInput}&page=${currentPage}`
+          `/api/admin/users?&keyword=${searchInput}&page=${currentPage}`
         );
       } else {
-        response = await axios.get(`http://localhost:8000/api/admin/users?&page=${currentPage}`);
+        response = await axios.get(`/api/admin/users?&page=${currentPage}`);
       }
 
       setResPerPage(response.data.resPerPage);
