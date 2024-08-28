@@ -62,12 +62,8 @@ app.use(helmet());
 app.use(morgan('combined'));  
  
 
-  // app.use((req, res, next) => {
-  //   res.setHeader('Content-Security-Policy', '*');
-  //   next();
-  // });
   app.use((req, res, next) => {
-    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self';");
+    res.setHeader('Content-Security-Policy', '*');
     next();
   });
   

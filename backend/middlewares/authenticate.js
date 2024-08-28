@@ -2,6 +2,9 @@ const ErrorHandler = require("../utils/errorHandler");
 const User = require('../model/user')
 const catchAsyncError = require("./catchAsyncError");
 const jwt = require('jsonwebtoken');
+const path = require('path')
+const dotenv = require('dotenv');
+dotenv.config({path:path.join(__dirname,"config/config.env")});
 
 exports.isAuthenticatedUser = catchAsyncError( async (req, res, next) => {
    const { token  }  = req.cookies;
