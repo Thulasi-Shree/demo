@@ -63,7 +63,7 @@ const Header = () => {
       style={{ backgroundColor: 'brown', color: 'black', }}
       expanded={navbarExpanded}
     >
-       
+
       {/* {pathname1 === '/login' ||
       pathname1 === '/signup' ||
       pathname1 === '/password/forgot' ||
@@ -72,9 +72,9 @@ const Header = () => {
       pathname1 === `/api/password/reset/:${token}` ? (
         <></>
       ) : ( */}
-        <Container>
-                 
-      {/* <div className='mx-3'>
+      <Container>
+
+        {/* <div className='mx-3'>
         {pathname1 !== '/' && (
           <Navbar.Brand>
             <Nav.Link as={Link} to="#" onClick={() => navigate(-1)}>
@@ -83,269 +83,246 @@ const Header = () => {
           </Navbar.Brand>
         )}
       </div> */}
-          <Navbar.Brand className="col-md-1 mx-auto  ">
-            <Nav.Link as={Link} to="/">
-              <img
-                src={require('../assets/img/grandIndiaLogo1.png')}
-                alt="Grand India Logo"
-                style={{ height: '40px', width: '130px' }}
-              />
-            </Nav.Link>
-          </Navbar.Brand>  
-          <Navbar.Toggle
-  className="navbar-toggler-left"
-  aria-controls="responsive-navbar-nav"
-  onClick={handleNavbarToggle}
-  style={{ border: '2px solid orange', position: 'absolute', top: '32px', left: '10px' }}
->
-  <FontAwesomeIcon
-    className='no-border'
-    icon={navbarExpanded ? faTimes : faBars}
-    style={{ color: 'orange' }}
-  />
-</Navbar.Toggle>
-      
-          <Navbar.Collapse id="responsive-navbar-nav">
-       
-            <Nav
-              style={{ fontSize: '17px', fontWeight: '500', color: '#2a206b'}}
-              className="col-md-7 col-lg-11 col-xl-10 mx-auto "
-            >
-              {isloggedIn === 'true' ? (
-                <>
-                  {role === 'user' && (
-                    <>
-                      <ul>
-                        <li>
-                          <NavLink to="/" id="HomeTag" style={{background: 'none'}} className="ms-lg-4">
-                            Home
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/select"
-                            style={{background: 'none'}}
-                          >
-                            Order
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to={`/myProfile/${user._id}`}
-                          >
-                            Profile
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </>
-                  )}
-                  {role === 'admin' && (
-                    <>
-                      <ul>
-                        <li>
-                          <NavLink to="/" id="HomeTag" className="ms-lg-4">
-                            Home
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            to="/select"
-                            id="HomeTag"
-                            className="ms-lg-4"
-                          >
-                            Order
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to={`/myProfile/${user._id}`}
-                          >
-                            Profile
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/dashboard"
-                          >
-                            Dashboard
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/orders"
-                          >
-                            <span>Active Orders</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/orderHistory"
-                          >
-                            Order History
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            as={Link}
-                            to="/admin/menus"
-                          >
-                            Menus
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </>
-                  )}
-                  {role === 'superAdmin' && (
-                    <>
-                      <ul>
-                        <li>
-                          <NavLink
-                            to="/admin/dashboard"
-                            id="HomeTag"
-                            className="ms-lg-4"
-                          >
-                            <span>Dashboard</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/orders"
-                          >
-                            <span>Active Orders</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/menus"
-                          >
-                            <span>Menus</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/orderHistory"
-                          >
-                            <span>Order History</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/users"
-                          >
-                            <span>Users</span>
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink
-                            id="HomeTag"
-                            className="ms-lg-4"
-                            to="/admin/restaurants"
-                          >
-                            <span>Restaurants</span>
-                          </NavLink>
-                        </li>
-                      </ul>
-                    </>
-                  )}
-                  <div
-                    className="logout-login-buttons"
-                    style={{ marginRight: '-5rem' }}
-                  >
-                    {!isLoggedIn ? (
-                      <Nav.Link
-                       
-                        className="btn border rounded p-2 mx-auto"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </Nav.Link>
-                    ) : (
-                      <>
-                        <Stack direction="horizontal" gap={3} />
-                        <Nav.Link
-                        
-                          className="btn border rounded p-2 mx-auto"
-                          as={Link}
-                          to="/login"
-                        >
-                          Login
-                        </Nav.Link>
-                      </>
-                    )}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <ul>
-                    <li>
-                      <NavLink to="/" id="HomeTag" className="ms-lg-4">
-                        Home
-                      </NavLink>
-                    </li>
-                    <li>
-                      <NavLink to="/select" className="ps-lg-4" id="HomeTag">
-                        Order
-                      </NavLink>
-                    </li>
-                  </ul>
-                  <div
-                    className="logout-login-buttons "
-                    style={{ marginRight: '-5rem' }}
-                  >
-                    <Stack direction="horizontal" gap={3} />
-                    {isLoggedIn ? (
-                      <Nav.Link
-                        className="btn border rounded p-2 mx-auto"
-                        onClick={handleLogout}
-                      >
-                        Logout
-                      </Nav.Link>
-                    ) : (
-                      <Nav>
-                        <Stack direction="horizontal" gap={3} />
-                        <Nav.Link
-                          style={{
-                            width: '100px',
-                            textAlign: 'center',
-                            display: 'inline-block'
+        <Navbar.Brand className="col-md-1 mx-auto  ">
+          <Nav.Link as={Link} to="/">
+            <img
+              src={require('../assets/img/grandIndiaLogo1.png')}
+              alt="Grand India Logo"
+              style={{ height: '40px', width: '130px' }}
+            />
+          </Nav.Link>
+        </Navbar.Brand>
+        <Navbar.Toggle
+          className="navbar-toggler-left"
+          aria-controls="responsive-navbar-nav"
+          onClick={handleNavbarToggle}
+          style={{ border: '2px solid orange', position: 'absolute', top: '32px', left: '10px' }}
+        >
+          <FontAwesomeIcon
+            className='no-border'
+            icon={navbarExpanded ? faTimes : faBars}
+            style={{ color: 'orange' }}
+          />
+        </Navbar.Toggle>
 
-                          }}
-                          className="btn border rounded p-2 mx-auto mt-lg-n1"
-                          as={Link}
-                          to="/login"
+        <Navbar.Collapse id="responsive-navbar-nav">
+
+          <Nav
+            style={{ fontSize: '17px', fontWeight: '500', color: '#2a206b' }}
+            className="col-md-7 col-lg-11 col-xl-10 mx-auto "
+          >
+            {isloggedIn === 'true' ? (
+              <>
+                {role === 'user' && (
+                  <>
+                    <ul>
+                      <li>
+                        <NavLink to="/" id="HomeTag" style={{ background: 'none' }} className="ms-lg-4">
+                          Home
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/select"
+                          style={{ background: 'none' }}
                         >
-                          Login
-                        </Nav.Link>
-                      </Nav>
-                    )}
-                  </div>
-                </>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
+                          Order
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to={`/myProfile/${user._id}`}
+                        >
+                          Profile
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </>
+                )}
+                {role === 'admin' && (
+                  <>
+                    <ul>
+                     <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/dashboard"
+                        >
+                          Dashboard
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/orders"
+                        >
+                          <span>Active Orders</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/orderHistory"
+                        >
+                          Order History
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          as={Link}
+                          to="/admin/menus"
+                        >
+                          Menus
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </>
+                )}
+                {role === 'superAdmin' && (
+                  <>
+                    <ul>
+                      <li>
+                        <NavLink
+                          to="/admin/dashboard"
+                          id="HomeTag"
+                          className="ms-lg-4"
+                        >
+                          <span>Dashboard</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/orders"
+                        >
+                          <span>Active Orders</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/menus"
+                        >
+                          <span>Menus</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/orderHistory"
+                        >
+                          <span>Order History</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/users"
+                        >
+                          <span>Users</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          id="HomeTag"
+                          className="ms-lg-4"
+                          to="/admin/restaurants"
+                        >
+                          <span>Restaurants</span>
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </>
+                )}
+                <div
+                  className="logout-login-buttons"
+                  style={{ marginRight: '-5rem' }}
+                >
+                  {!isLoggedIn ? (
+                    <Nav.Link
+
+                      className="btn border rounded p-2 mx-auto"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Nav.Link>
+                  ) : (
+                    <>
+                      <Stack direction="horizontal" gap={3} />
+                      <Nav.Link
+
+                        className="btn border rounded p-2 mx-auto"
+                        as={Link}
+                        to="/login"
+                      >
+                        Login
+                      </Nav.Link>
+                    </>
+                  )}
+                </div>
+              </>
+            ) : (
+              <>
+                <ul>
+                  <li>
+                    <NavLink to="/" id="HomeTag" className="ms-lg-4">
+                      Home
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/select" className="ps-lg-4" id="HomeTag">
+                      Order
+                    </NavLink>
+                  </li>
+                </ul>
+                <div
+                  className="logout-login-buttons "
+                  style={{ marginRight: '-5rem' }}
+                >
+                  <Stack direction="horizontal" gap={3} />
+                  {isLoggedIn ? (
+                    <Nav.Link
+                      className="btn border rounded p-2 mx-auto"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </Nav.Link>
+                  ) : (
+                    <Nav>
+                      <Stack direction="horizontal" gap={3} />
+                      <Nav.Link
+                        style={{
+                          width: '100px',
+                          textAlign: 'center',
+                          display: 'inline-block'
+
+                        }}
+                        className="btn border rounded p-2 mx-auto mt-lg-n1"
+                        as={Link}
+                        to="/login"
+                      >
+                        Login
+                      </Nav.Link>
+                    </Nav>
+                  )}
+                </div>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
       {/* )} */}
     </Navbar>
   );

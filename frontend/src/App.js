@@ -391,24 +391,24 @@ function App() {
               <Route path="/order/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
               <Route path="/myProfile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
               <Route path="/updateProfile/:id" element={<ProtectedRoute><UpdateProfile /></ProtectedRoute>} />
-              <Route path="/admin/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-              <Route path="/timeSlot" element={<ProtectedRoute><TimeSlotManager /></ProtectedRoute>} />
-              <Route path="/admin/orderHistory" element={<ProtectedRoute><OrdersHistory /></ProtectedRoute>} />
-              <Route path="/admin/orders" element={<ProtectedRoute><OrdersTable /></ProtectedRoute>} />
-              <Route path="/admin/order/:id" element={<ProtectedRoute><OrderStatus /></ProtectedRoute>} />
+              <Route path="/admin/dashboard" element={<ProtectedRoute><AdminSuperAdminRoute><DashboardPage /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/timeSlot" element={<ProtectedRoute><SuperAdminRoute><TimeSlotManager /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/orderHistory" element={<ProtectedRoute><AdminSuperAdminRoute><OrdersHistory /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/orders" element={<ProtectedRoute><AdminSuperAdminRoute><OrdersTable /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/order/:id" element={<ProtectedRoute> <AdminSuperAdminRoute><OrderStatus /></AdminSuperAdminRoute></ProtectedRoute>} />
               <Route path="/admin/carousel/new" element={<ProtectedRoute><CarouselForm /></ProtectedRoute>} />
               <Route path="/admin/carousel/list" element={<ProtectedRoute><CarousalTable /></ProtectedRoute>} />
-              <Route path="/admin/create" element={<ProtectedRoute><CreateAdmin /></ProtectedRoute>} />
+              <Route path="/admin/create" element={<ProtectedRoute><SuperAdminRoute><CreateAdmin /></SuperAdminRoute></ProtectedRoute>} />
               <Route path="/admin/updateCarousal/:id" element={<ProtectedRoute><UpdateCarousal /></ProtectedRoute>} />
-              <Route path="/admin/create/restaurant" element={<ProtectedRoute><CreateRestaurant /></ProtectedRoute>} />
-              <Route path="/admin/updateMenu/:id" element={<ProtectedRoute><UpdateMenu /></ProtectedRoute>} />
-              <Route path="/admin/updateRestaurant/:id" element={<ProtectedRoute><EditRestaurant /></ProtectedRoute>} />
-              <Route path="/admin/users" element={<ProtectedRoute><UsersList /></ProtectedRoute>} />
-              <Route path="/admin/menus" element={<ProtectedRoute><MenuList /></ProtectedRoute>} />
-              <Route path="/admin/createMenu" element={<ProtectedRoute><CreateMenu /></ProtectedRoute>} />
-              <Route path="/admin/customer/list" element={<ProtectedRoute><CustomerList /></ProtectedRoute>} />
-              <Route path="/admin/restaurants" element={<ProtectedRoute><RestaurantTable /></ProtectedRoute>} />
-              <Route path="/admin/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+              <Route path="/admin/create/restaurant" element={<ProtectedRoute><SuperAdminRoute><CreateRestaurant /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/updateMenu/:id" element={<ProtectedRoute><AdminSuperAdminRoute><UpdateMenu /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/updateRestaurant/:id" element={<ProtectedRoute><SuperAdminRoute><EditRestaurant /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute><SuperAdminRoute><UsersList /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/menus" element={<ProtectedRoute><AdminSuperAdminRoute><MenuList /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/createMenu" element={<ProtectedRoute><AdminSuperAdminRoute><CreateMenu /></AdminSuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/customer/list" element={<ProtectedRoute><SuperAdminRoute><CustomerList /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/restaurants" element={<ProtectedRoute><SuperAdminRoute><RestaurantTable /></SuperAdminRoute></ProtectedRoute>} />
+              <Route path="/admin/settings" element={<ProtectedRoute><SuperAdminRoute><Settings /></SuperAdminRoute></ProtectedRoute>} />
               <Route path="/email/Confirmation" element={<OpenEmailAppLink/>} />
 
               {stripeApiKey && (
@@ -440,6 +440,9 @@ function App() {
 import { loadStripe } from '@stripe/stripe-js';
 import OpenEmailAppLink from 'pages/auth/register/RegistrationVerification';
 import TimeSlotManager from 'pages/admin/TimeSlot';
+import AdminRoute from 'routes/adminRoute';
+import AdminSuperAdminRoute from 'routes/adminSuperAdminRoute';
+import SuperAdminRoute from 'routes/superAdminRoute';
 
 const LazyLoadedPayment = ({ stripeApiKey }) => {
   const Elements = lazy(() => import('@stripe/react-stripe-js').then(module => ({ default: module.Elements })));
