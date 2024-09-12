@@ -116,12 +116,12 @@ const Payment = () => {
                 country: deliveryAddress.country
               }
             : undefined,
-          items: cartInfo.map((cartItem) => ({
-            name: cartItem.name,
-            image: cartItem.images[0].image || 'https://via.placeholder.com/20',
-            price: cartItem.price,
-            itemQuantity: cartItem.quantity
-          })),
+          // items: cartInfo.map((cartItem) => ({
+          //   name: cartItem.name,
+          //   image: cartItem.images[0].image || 'https://via.placeholder.com/20',
+          //   price: cartItem.price,
+          //   itemQuantity: cartItem.quantity
+          // })),
           orderNotes,
           userId: userId?._id || 'Guest',
           deliveryInstruction,
