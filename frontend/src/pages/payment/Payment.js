@@ -120,7 +120,9 @@ const Payment = () => {
             : undefined,
           items: cartInfo.map((cartItem) => ({
             name: cartItem.name,
-            image: cartItem.images[0].image || placeholderImage,
+            image: cartItem.images && cartItem.images.length > 0
+    ? cartItem.images[0].image
+    : placeholderImage, 
             price: cartItem.price,
             itemQuantity: cartItem.quantity
           })),
