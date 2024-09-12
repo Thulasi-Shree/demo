@@ -180,14 +180,19 @@ const ShippingInfo1 = () => {
         localStorage.setItem('emailOrMobile', JSON.stringify(emailOrMobile));
         setOtpVerified(true);
         localStorage.setItem('otpVerified', JSON.stringify(otpVerified));
+
       } else {
         // alert(`OTP verification failed!`);
         setAlert({ message: 'OTP verification failed!', type: 'success' });
+        setOtpVerified(false)
+        localStorage.setItem('otpVerified', JSON.stringify(otpVerified));
 
       }
     } catch (error) {
       // alert(`OTP verification failed!`);
       setAlert({ message: `OTP verification failed!`, type: 'error' });
+      setOtpVerified(false)
+        localStorage.setItem('otpVerified', JSON.stringify(otpVerified));
 
     }
   };
