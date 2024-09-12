@@ -18,6 +18,8 @@ const DeliveryAddress = ({
   state,
   country,
   textBox2,
+  postal_code,
+  setPostal_code,
   billingPostalCode,
   useCurrentLocation,
   billingStreetAddress,
@@ -138,7 +140,7 @@ const DeliveryAddress = ({
               <BillingAddress
                 sameAsDelivery={sameAsDelivery}
                 streetAddress={billingStreetAddress}
-                postalCode={billingPostalCode}
+                postal_code={billingPostalCode}
                 city={billingCity}
                 state={billingState}
                 country={billingCountry}
@@ -197,8 +199,8 @@ const DeliveryAddress = ({
               type="text"
               className={`form-control `}
               id="zipCode"
-              value={postalCode}
-              onChange={handleZipCodeChange}
+              value={postal_code}
+              onChange={(e) => setPostal_code(e.target.value)}
               required
               placeholder="Field is required"
             />

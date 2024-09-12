@@ -29,7 +29,7 @@ const BillingAddress = ({
       country
     };
     localStorage.setItem('billingAddress', JSON.stringify(billingAddress));
-  }, [streetAddress, postalCode, city, state, country]);
+  }, [streetAddress, postalCode, postal_code, city, state, country]);
 
   return (
     <Card className="my-3 p-3 bg-transparent">
@@ -60,7 +60,7 @@ const BillingAddress = ({
       </div>
       <div className="mb-3 address-container">
         <label id="CardText" htmlFor="zipCode" className="form-label">
-          ZIP Code{' '}
+          ZIP Codeoo{' '}
           <span className="text-danger">
             {' '}
             <b>*</b>

@@ -21,6 +21,9 @@ const ShippingInfo1 = () => {
   const isLoggedIn = JSON.parse(localStorage.getItem('isloggedIn'));
   const delivery = JSON.parse(localStorage.getItem('deliveryAddress') || '{}');
   const order = JSON.parse(localStorage.getItem('orderType')|| '{}');
+  const shippingInfo = JSON.parse(localStorage.getItem('shippingInfo')|| '{}');
+  const emailOrMobile1 = JSON.parse(localStorage.getItem('emailOrMobile')|| '{}');
+  const otp = JSON.parse(localStorage.getItem('otpVerified')|| '{}');
   const orderInstruction = JSON.parse(localStorage.getItem('orderNotes' || ''));
   const billing = JSON.parse(localStorage.getItem('billingAddress') || '{}');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -38,24 +41,24 @@ const ShippingInfo1 = () => {
   const [city, setCity] = useState(delivery.city || billing.city || '');
   const [country, setCountry] = useState('US');
   const [state, setState] = useState(delivery.state || billing.state || '');
-  const [postal_code, setPostal_code] = useState(delivery.postal_code ||'');
+  const [postal_code, setPostal_code] = useState(delivery.postal_code || billing.postal_code ||'');
   const [textBox1, setTextBox1] = useState(orderInstruction || '');
   const [textBox2, setTextBox2] = useState(orderInstruction || '');
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(otp || false);
   const [locationApi, setLocationApi] = useState(null);
   const [deliveryKm, setDeliveryKm] = useState('');
   const [alert, setAlert] = useState({ message: '', type: '' });
   const [locationApi1, setLocationApi1] = useState(null);
-  const [name, setFirstName] = useState(isLoggedIn ? user.name : '');
-  const [lastName, setLastName] = useState(isLoggedIn ? user.lastName : '');
-  const [email, setEmail] = useState(isLoggedIn ? user.email : '');
+  const [name, setFirstName] = useState(isLoggedIn ? user.name : shippingInfo.name || '');
+  const [lastName, setLastName] = useState(isLoggedIn ? user.lastName : shippingInfo.lastName || '');
+  const [email, setEmail] = useState(isLoggedIn ? user.email : shippingInfo.email || '');
   const [deliveryVerified, setDeliveryVerified] = useState(false);
   const [billingVerified, setBillingVerified] = useState(false);
   const [useCurrentLocation, setUseCurrentLocation] = useState(false);
   const [distanceResult, setDistanceResult] = useState(null);
   const [toastShown, setToastShown] = useState(false);
-  const [emailOrMobile, setEmailOrMobile] = useState('');
+  const [emailOrMobile, setEmailOrMobile] = useState(emailOrMobile1 || '');
   const [coordinates, setCoordinates] = useState({
     latitude: null,
     longitude: null
@@ -87,9 +90,11 @@ const ShippingInfo1 = () => {
   // Function to handle user name change
   const handleFirstNameChange = (e) => {
     setFirstName(e.target.value);
+    localStorage.setItem('name', JSON.stringify(name));
   };
   const handleLastNameChange = (e) => {
     setLastName(e.target.value);
+    localStorage.setItem('lastName', JSON.stringify(lastName));
   };
   // Function to handle email change
   const handleEmailChange = (e) => {
@@ -175,6 +180,7 @@ const ShippingInfo1 = () => {
 
         localStorage.setItem('emailOrMobile', JSON.stringify(emailOrMobile));
         setOtpVerified(true);
+        localStorage.setItem('otpVerified', JSON.stringify(otpVerified));
       } else {
         // alert(`OTP verification failed!`);
         setAlert({ message: 'OTP verification failed!', type: 'success' });
@@ -219,7 +225,7 @@ const ShippingInfo1 = () => {
   };
   const [sameAsDelivery, setSameAsDelivery] = useState(false);
   const [billingStreetAddress, setBillingStreetAddress] = useState(billing.streetAddress|| '');
-  const [billingpostal_code, setBillingpostal_code] = useState(billing.postalCode || billing.postal_code || '');
+  const [billingpostal_code, setBillingpostal_code] = useState(delivery.postal_code || billing.postal_code ||'');
   const [billingCity, setBillingCity] = useState(billing.city || '');
   const [billingState, setBillingState] = useState(billing.state || '');
   const [billingCountry, setBillingCountry] = useState('US');  
@@ -230,7 +236,7 @@ const ShippingInfo1 = () => {
     if (!sameAsDelivery) {
       // If the user selects "Same as Delivery," auto-populate billing address
       setBillingStreetAddress(streetAddress);
-      setBillingpostal_code(postal_code);
+      setBillingpostal_code(billingpostal_code);
       setBillingCity(city);
       setBillingState(state);
       setBillingCountry(country);
@@ -291,7 +297,7 @@ const ShippingInfo1 = () => {
   const handleBillingAddressChange = async (event) => {
     event.preventDefault();
 
-    const fullBillingAddress = `${streetAddress}, ${city}, ${state}, ${postal_code}, ${country}`;
+    const fullBillingAddress = `${streetAddress}, ${city}, ${state}, ${postal_code || billingpostal_code}, ${country}`;
 
     const geocodeBillingAddressToCoordinates = async (address) => {
       try {
@@ -335,7 +341,7 @@ const ShippingInfo1 = () => {
   const handleDeliveryAddressChange = async (event) => {
     event.preventDefault();
   
-    const fullDeliveryAddress = `${streetAddress}, ${city}, ${state}, ${postal_code}, ${country}`;
+    const fullDeliveryAddress = `${streetAddress}, ${city}, ${state}, ${postal_code || billingpostal_code}, ${country}`;
   
     const geocodeDeliveryAddressToCoordinates = async (address) => {
       try {
@@ -377,7 +383,7 @@ const ShippingInfo1 = () => {
   
       if (distanceInKm <= deliveryKm) {
         // alert(`Order Available for your location!`);
-        setAlert({ message: `Order Available for your location!`, type: 'success' });
+        // setAlert({ message: `Order Available for your location!`, type: 'success' });
 
         setDeliveryVerified(true);
       } else {
@@ -510,7 +516,7 @@ const ShippingInfo1 = () => {
       'billingAddress',
       JSON.stringify({
         streetAddress: billingStreetAddress,
-        postal_code: billingpostal_code || postal_code,
+        postal_code: billingpostal_code,
         city: billingCity,
         state: billingState,
         country: billingCountry
@@ -613,6 +619,7 @@ const ShippingInfo1 = () => {
             <DeliveryAddress
               streetAddress={streetAddress}
               postal_code={postal_code}
+              setPostal_code={setPostal_code}
               city={city}
               state={state}
               country={country}
@@ -655,6 +662,8 @@ const ShippingInfo1 = () => {
               state={state}
               country={country}
               textBox1={textBox1}
+              billingPostalCode={billingpostal_code}
+              setBillingPostalCode={setBillingpostal_code}
               // handleBillingAddressChange={handleButtonClick}
               handleStreetAddressChange={handleStreetAddressChange}
               handleZipCodeChange={handleZipCodeChange}
