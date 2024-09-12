@@ -60,7 +60,7 @@ const BillingAddress = ({
       </div>
       <div className="mb-3 address-container">
         <label id="CardText" htmlFor="zipCode" className="form-label">
-          ZIP Codeoo{' '}
+          ZIP Code{' '}
           <span className="text-danger">
             {' '}
             <b>*</b>
