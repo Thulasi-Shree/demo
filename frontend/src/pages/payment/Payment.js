@@ -11,6 +11,8 @@ import { Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import './Payment.css';
 import CustomAlert from 'components/utilities/Alert';
+import placeholderImage from 'assets/img/20.png';
+
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -116,12 +118,12 @@ const Payment = () => {
                 country: deliveryAddress.country
               }
             : undefined,
-          // items: cartInfo.map((cartItem) => ({
-          //   name: cartItem.name,
-          //   image: cartItem.images[0].image || 'https://via.placeholder.com/20',
-          //   price: cartItem.price,
-          //   itemQuantity: cartItem.quantity
-          // })),
+          items: cartInfo.map((cartItem) => ({
+            name: cartItem.name,
+            image: cartItem.images[0].image || placeholderImage,
+            price: cartItem.price,
+            itemQuantity: cartItem.quantity
+          })),
           orderNotes,
           userId: userId?._id || 'Guest',
           deliveryInstruction,
