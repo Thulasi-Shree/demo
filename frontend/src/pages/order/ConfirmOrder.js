@@ -66,7 +66,7 @@ const ConfirmOrder = () => {
   // };
   const fetchdata = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/admin/settings/getbyId`, {
+      const response = await axios.get(`/api/admin/settings/getbyId`, {
         params: { restaurantId } // Pass restaurantId as a query parameter
       });
       

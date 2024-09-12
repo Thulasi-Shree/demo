@@ -273,7 +273,7 @@ const DeliveryAddress = ({
             <>
               {distanceResult < 500 ? (
                 <div>
-                  <p
+                  {/* <p
                     style={{
                       color: 'green',
                       backgroundColor: 'transparent',
@@ -281,11 +281,11 @@ const DeliveryAddress = ({
                     }}
                   >
                     Order available for this location
-                  </p>
+                  </p> */}
                 </div>
               ) : (
                 <div>
-                  <p
+                  {/* <p
                     style={{
                       color: 'red',
                       backgroundColor: 'transparent'
@@ -293,7 +293,7 @@ const DeliveryAddress = ({
                     }}
                   >
                     Order not available for this location
-                  </p>
+                  </p> */}
                 </div>
               )}
             </>
