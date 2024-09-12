@@ -22,7 +22,7 @@ const ShippingInfo1 = () => {
   const delivery = JSON.parse(localStorage.getItem('deliveryAddress') || '{}');
   const order = JSON.parse(localStorage.getItem('orderType')|| '{}');
   const shippingInfo = JSON.parse(localStorage.getItem('shippingInfo')|| '{}');
-  const emailOrMobile1 = JSON.parse(localStorage.getItem('emailOrMobile')|| '{}');
+  const emailOrMobile1 = JSON.parse(localStorage.getItem('emailOrMobile'))|| '';
   const otp = JSON.parse(localStorage.getItem('otpVerified')|| '{}');
   const orderInstruction = JSON.parse(localStorage.getItem('orderNotes' || ''));
   const billing = JSON.parse(localStorage.getItem('billingAddress') || '{}');
