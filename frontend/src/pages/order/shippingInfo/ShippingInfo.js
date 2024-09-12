@@ -433,22 +433,7 @@ const ShippingInfo1 = () => {
 
       localStorage.setItem('shippingInfo', JSON.stringify(addressData));
 
-      if (
-        (billingVerified === true && deliveryVerified === true) ||
-        (orderType === 'Pickup' && billingVerified === true)
-      ) {
-        // Set success alert for verified addresses
-        setAlert({ message: "Address verified", type: "success" });
-    
-        // Check if user is logged in or if OTP is verified
-        if (isLoggedIn || otpVerified) {
-          // Navigate to the next page if the user is logged in or OTP is verified
-          navigate('/order/confirm');
-        } else {
-          // Show an error if the user is not logged in and OTP is not verified
-          setAlert({ message: "Please verify your email / mobile number", type: "error" });
-        }
-      }
+     
     } catch (error) {
       // Handle other errors
       console.error('Error submitting form:', error);
@@ -584,7 +569,22 @@ const ShippingInfo1 = () => {
     }
   }, [sameAsDelivery, streetAddress, postal_code, city, state, country]);
   useEffect(() => {
-    // Check if billing and delivery are verified, or if it's 'Pickup' and billing is verified
+    if (
+      (billingVerified === true && deliveryVerified === true) ||
+      (orderType === 'Pickup' && billingVerified === true)
+    ) {
+      // Set success alert for verified addresses
+      setAlert({ message: "Address verified", type: "success" });
+  
+      // Check if user is logged in or if OTP is verified
+      if (isLoggedIn || otpVerified) {
+        // Navigate to the next page if the user is logged in or OTP is verified
+        navigate('/order/confirm');
+      } else {
+        // Show an error if the user is not logged in and OTP is not verified
+        setAlert({ message: "Please verify your email / mobile number", type: "error" });
+      }
+    }
     
   }, [billingVerified, deliveryVerified, orderType, isLoggedIn, otpVerified, navigate]);
   
