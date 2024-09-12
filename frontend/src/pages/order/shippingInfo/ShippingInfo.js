@@ -23,7 +23,6 @@ const ShippingInfo1 = () => {
   const order = JSON.parse(localStorage.getItem('orderType')|| '{}');
   const shippingInfo = JSON.parse(localStorage.getItem('shippingInfo')|| '{}');
   const emailOrMobile1 = JSON.parse(localStorage.getItem('emailOrMobile'))|| '';
-  const otp = JSON.parse(localStorage.getItem('otpVerified')|| '{}');
   const orderInstruction = JSON.parse(localStorage.getItem('orderNotes' || ''));
   const billing = JSON.parse(localStorage.getItem('billingAddress') || '{}');
   const user = JSON.parse(localStorage.getItem('user'));
@@ -45,7 +44,7 @@ const ShippingInfo1 = () => {
   const [textBox1, setTextBox1] = useState(orderInstruction || '');
   const [textBox2, setTextBox2] = useState(orderInstruction || '');
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(otp || false);
+  const [otpVerified, setOtpVerified] = useState(false);
   const [locationApi, setLocationApi] = useState(null);
   const [deliveryKm, setDeliveryKm] = useState('');
   const [alert, setAlert] = useState({ message: '', type: '' });
@@ -428,6 +427,23 @@ const ShippingInfo1 = () => {
       }
 
       localStorage.setItem('shippingInfo', JSON.stringify(addressData));
+
+      if (
+        (billingVerified === true && deliveryVerified === true) ||
+        (orderType === 'Pickup' && billingVerified === true)
+      ) {
+        // Set success alert for verified addresses
+        setAlert({ message: "Address verified", type: "success" });
+    
+        // Check if user is logged in or if OTP is verified
+        if (isLoggedIn || otpVerified) {
+          // Navigate to the next page if the user is logged in or OTP is verified
+          navigate('/order/confirm');
+        } else {
+          // Show an error if the user is not logged in and OTP is not verified
+          setAlert({ message: "Please verify your email / mobile number", type: "error" });
+        }
+      }
     } catch (error) {
       // Handle other errors
       console.error('Error submitting form:', error);
@@ -563,18 +579,10 @@ const ShippingInfo1 = () => {
     }
   }, [sameAsDelivery, streetAddress, postal_code, city, state, country]);
   useEffect(() => {
-    // if (billingVerified && deliveryVerified) {
-    //   navigate('/order/confirm');
-    // }
-    if (
-      (billingVerified === true && deliveryVerified === true) ||
-      (orderType === 'Pickup' && billingVerified === true)
-    ) { 
-      setAlert({ message: "Address verified", type: "success"});
-      // alert('Address verified')
-      navigate('/order/confirm');
-    }
-  }, [billingVerified, deliveryVerified, orderType, navigate]);
+    // Check if billing and delivery are verified, or if it's 'Pickup' and billing is verified
+    
+  }, [billingVerified, deliveryVerified, orderType, isLoggedIn, otpVerified, navigate]);
+  
 
   return (
     <div id="ShippingInfo" className="py-5 bg-white">
@@ -602,7 +610,7 @@ const ShippingInfo1 = () => {
               errors={errors}
             />
           )}
-          {(otpVerified || isLoggedIn) && (
+          {/* {(otpVerified || isLoggedIn) && ( */}
             <OrderDetails
               orderType={orderType}
               selectedTimeSlot={selectedTimeSlot}
@@ -614,7 +622,7 @@ const ShippingInfo1 = () => {
               textBox1={textBox1}
               handleText1={handleText1}
             />
-          )}
+          {/* )} */}
           {orderType === 'Delivery' && (
             <DeliveryAddress
               streetAddress={streetAddress}
