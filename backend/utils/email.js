@@ -52,7 +52,7 @@ const sendOrderConfirmationEmail = (email, order) => {
 
     if (order.delivery) {
         deliveryAddressContent = `
-            <p>Delivery Address:${order.delivery.line1}, ${order.delivery.city}- ${order.delivery.postalCode}, ${order.delivery.state}, ${order.delivery.country}</p>
+            <p>Delivery Address:${order.delivery.line1}, ${order.delivery.city}- ${order.delivery.postalCode || ''}, ${order.delivery.state}, ${order.delivery.country}</p>
         `;
     }
     const emailContent = `
@@ -64,7 +64,7 @@ const sendOrderConfirmationEmail = (email, order) => {
     ${order.shipping.phone ? `<p>Phone: ${order.shipping.phone}</p>` : ''}
     ${order.shipping.emailOrMobile ? `<p>Email: ${order.shipping.emailOrMobile}</p>` : ''}
     <p>Restaurant: ${order.restaurantBranch}</p>
-    <p>Billing Address:${order.shipping.address.line1}, ${order.shipping.address.city}- ${order.shipping.address.postalCode || 99765}, ${order.shipping.address.state}, ${order.shipping.address.country}</p>
+    <p>Billing Address:${order.shipping.address.line1}, ${order.shipping.address.city}- ${order.shipping.address.postalCode || ''}, ${order.shipping.address.state}, ${order.shipping.address.country}</p>
     ${deliveryAddressContent}
     <p>
         ${order.items.map(item => `<li>${item.name} - ${item.itemQuantity} x $${item.price}</li>`).join('')}

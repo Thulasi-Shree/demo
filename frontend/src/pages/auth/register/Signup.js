@@ -45,6 +45,15 @@ const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const trimmedPhone = formData.phone.trim();
+  
+    // Validate phone number format for international numbers
+    const phoneRegex = /^\+?[1-9]\d{1,14}$/; // E.164 format
+    if (!phoneRegex.test(trimmedPhone)) {
+      setAlert({ message: 'Invalid phone number format. Please enter a valid number.', type: 'error' });
+      return;
+    }
+
     const encryptedPassword = CryptoJS.AES.encrypt(
       formData.password,
       'ghjdjdgdhddjjdhgdcdghww#hsh536'

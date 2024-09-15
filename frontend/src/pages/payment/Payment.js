@@ -50,8 +50,8 @@ const Payment = () => {
         line1: billingAddress?.streetAddress,
         line2: null,
         city: billingAddress?.city,
-        state: billingAddress?.state,
-        postal_code: billingAddress?.postalCode,
+        state: `${billingAddress?.state} - ${billingAddress?.postal_code || billingAddress.postalCode}`,
+        postal_code: billingAddress?.postal_code,
         country: billingAddress?.country
       }
     }
@@ -104,8 +104,8 @@ const Payment = () => {
               line1: billingAddress.streetAddress,
               city: billingAddress.city,
               orderType: shippingInfo.orderType,
-              state: billingAddress.state,
-              postalCode: billingAddress.postalCode,
+              state: `${billingAddress.state} - ${billingAddress.postal_code || billingAddress.postalCode}`,
+              postalCode: billingAddress.postal_code,
               country: billingAddress.country
             }
           },
@@ -113,11 +113,11 @@ const Payment = () => {
             ? {
                 line1: deliveryAddress.streetAddress,
                 city: deliveryAddress.city,
-                state: deliveryAddress.state,
-                postalCode: deliveryAddress.postalCode,
+                state: `${deliveryAddress.state} - ${deliveryAddress.postal_code || deliveryAddress.postalCode}`,
+                postalCode: deliveryAddress.postal_code || deliveryAddress.postalCode,
                 country: deliveryAddress.country
               }
-            : undefined,
+            : '',
           items: cartInfo.map((cartItem) => ({
             name: cartItem.name,
             image: cartItem.images && cartItem.images.length > 0
