@@ -343,7 +343,7 @@ const MenuList = () => {
                       value={selectedBranch}
                       onChange={handleBranchChange}
                     >
-                      <option value="all">All</option>
+                      <option value="all">Select</option>
                       {restaurant &&
                         restaurant.map((restaurant) => (
                           <option

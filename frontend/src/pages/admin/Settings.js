@@ -13,8 +13,8 @@
 //   const [settings, setSettings] = useState({
 //     minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerkm: 0,
-//     deliverykm: 0,
+//     deliveryChargePerKm: 0,
+//     deliveryKm: 0,
 //     restaurantId: '',
 //     restaurantBranch: ''
 //   });
@@ -38,8 +38,8 @@
 //           headers: { 'x-auth-token': token }
 //         });
 //         if (response.data.data) {
-//           const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data;
-//           setSettings({ minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch });
+//           const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data;
+//           setSettings({ minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch });
 //           setIsExisting(true); // Settings already exist
 //         }
 //       } catch (error) {
@@ -149,26 +149,26 @@
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
+//             <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per KM</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryChargePerkm" 
-//               value={settings.deliveryChargePerkm} 
+//               name="deliveryChargePerKm" 
+//               value={settings.deliveryChargePerKm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery Charge Per km" 
+//               placeholder="Delivery Charge Per Km" 
 //               required 
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliverykm" className="form-label">Delivery km</label>
+//             <label htmlFor="deliveryKm" className="form-label">Delivery KM</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliverykm" 
-//               value={settings.deliverykm} 
+//               name="deliveryKm" 
+//               value={settings.deliveryKm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery km" 
+//               placeholder="Delivery KM" 
 //             />
 //           </div>
 //           <button className='btn my-3 px-4 btn rounded w-100' type="submit">Save</button>
@@ -189,8 +189,8 @@ const Settings = ({ token }) => {
   const [settings, setSettings] = useState({
     minDeliveryCharge: '',
     taxAmount: '',
-    deliveryChargePerkm: '',
-    deliverykm: '',
+    deliveryChargePerKm: '',
+    deliveryKm: '',
     restaurantId: '',
     restaurantBranch: ''
   });
@@ -207,7 +207,7 @@ const Settings = ({ token }) => {
       if (response.data.data) {
         setSettingsList(response.data.data);
         if (response.data.data.length > 0) {
-          const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data[0];
+          const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data[0];
           setSettings({restaurantId, restaurantBranch });
           setIsExisting(true); // Settings already exist
         }
@@ -257,8 +257,8 @@ const Settings = ({ token }) => {
         setSettings({
           minDeliveryCharge: '',
           taxAmount: '',
-          deliveryChargePerkm: '',
-          deliverykm: '',
+          deliveryChargePerKm: '',
+          deliveryKm: '',
           restaurantId: '',
           restaurantBranch: ''
         })
@@ -340,12 +340,12 @@ const Settings = ({ token }) => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
+            <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per km</label>
             <input 
               type="number" 
               className="form-control" 
-              name="deliveryChargePerkm" 
-              value={settings.deliveryChargePerkm} 
+              name="deliveryChargePerKm" 
+              value={settings.deliveryChargePerKm} 
               onChange={(e) => {
                 const value = e.target.value;
                 if (value >= 0) { 
@@ -357,12 +357,12 @@ const Settings = ({ token }) => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="deliverykm" className="form-label">Delivery km</label>
+            <label htmlFor="deliveryKm" className="form-label">Delivery km</label>
             <input 
               type="number" 
               className="form-control" 
-              name="deliverykm" 
-              value={settings.deliverykm} 
+              name="deliveryKm" 
+              value={settings.deliveryKm} 
               onChange={(e) => {
                 const value = e.target.value;
                 if (value >= 0) { 
@@ -383,8 +383,8 @@ const Settings = ({ token }) => {
               <th>Restaurant Branch</th>
               <th>Min Delivery Charge</th>
               <th>Tax Amount</th>
-              <th>Delivery Charge Per km</th>
-              <th>Delivery km</th>
+              <th>Delivery Charge Per Km</th>
+              <th>Delivery Km</th>
             </tr>
           </thead>
           <tbody>
@@ -394,8 +394,8 @@ const Settings = ({ token }) => {
                 <td>{setting.restaurantBranch || 'N/A'}</td>
                 <td>{setting.minDeliveryCharge}</td>
                 <td>{setting.taxAmount}</td>
-                <td>{setting.deliveryChargePerkm}</td>
-                <td>{setting.deliverykm}</td>
+                <td>{setting.deliveryChargePerKm}</td>
+                <td>{setting.deliveryKm}</td>
               </tr>
             ))}
           </tbody>
@@ -419,8 +419,8 @@ export default Settings;
 //   const [selectedSettings, setSelectedSettings] = useState({
 //     minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerkm: 0,
-//     deliverykm: 0,
+//     deliveryChargePerKm: 0,
+//     deliveryKm: 0,
 //     restaurantId: '',
 //     restaurantBranch: ''
 //   });
@@ -445,8 +445,8 @@ export default Settings;
 //         });
 //         if (response.data.data && response.data.data.length > 0) {
 //           setSettingsList(response.data.data);
-//           const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data[0];
-//           setSelectedSettings({ minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch });
+//           const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data[0];
+//           setSelectedSettings({ minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch });
 //           setIsExisting(true); // Settings already exist
 //         }
 //       } catch (error) {
@@ -467,8 +467,8 @@ export default Settings;
 //       // ...prevSettings,
 //       minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerkm: 0,
-//     deliverykm: 0,
+//     deliveryChargePerKm: 0,
+//     deliveryKm: 0,
 //       restaurantId: selectedRestaurantId,
 //       restaurantBranch: selectedRestaurant ? selectedRestaurant.restaurantBranch : '' // Default to empty string if not found
 //     }));
@@ -556,26 +556,26 @@ export default Settings;
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
+//             <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per KM</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryChargePerkm" 
-//               value={selectedSettings.deliveryChargePerkm} 
+//               name="deliveryChargePerKm" 
+//               value={selectedSettings.deliveryChargePerKm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery Charge Per km" 
+//               placeholder="Delivery Charge Per Km" 
 //               required 
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliverykm" className="form-label">Delivery km</label>
+//             <label htmlFor="deliveryKm" className="form-label">Delivery KM</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliverykm" 
-//               value={selectedSettings.deliverykm} 
+//               name="deliveryKm" 
+//               value={selectedSettings.deliveryKm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery km" 
+//               placeholder="Delivery KM" 
 //             />
 //           </div>
 //           <button className='btn my-3 px-4 btn rounded w-100' type="submit">Save</button>
@@ -588,8 +588,8 @@ export default Settings;
 //               <th>Restaurant Branch</th>
 //               <th>Min Delivery Charge</th>
 //               <th>Tax Amount</th>
-//               <th>Delivery Charge Per km</th>
-//               <th>Delivery km</th>
+//               <th>Delivery Charge Per Km</th>
+//               <th>Delivery Km</th>
 //             </tr>
 //           </thead>
 //           <tbody>
@@ -599,8 +599,8 @@ export default Settings;
 //                 <td>{setting.restaurantBranch || 'N/A'}</td>
 //                 <td>{setting.minDeliveryCharge}</td>
 //                 <td>{setting.taxAmount}</td>
-//                 <td>{setting.deliveryChargePerkm}</td>
-//                 <td>{setting.deliverykm}</td>
+//                 <td>{setting.deliveryChargePerKm}</td>
+//                 <td>{setting.deliveryKm}</td>
 //               </tr>
 //             ))}
 //           </tbody>

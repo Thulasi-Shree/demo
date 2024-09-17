@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import CustomAlert from 'components/utilities/Alert';
 
@@ -391,6 +391,11 @@ const EditRestaurant = () => {
               <button type="submit" className="btn my-3 px-4 btn rounded w-100 my-4">
                 Update Restaurant
               </button>
+            </div>
+            <div className="d-flex justify-content-center">
+              <Link to="/admin/restaurants" className="btn my-3 px-4 btn rounded w-100 my-4">
+                Back
+              </Link>
             </div>
           </Card>
         </form>

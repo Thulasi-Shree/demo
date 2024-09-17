@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Card } from 'react-bootstrap';
 import '../user/Profile.css';
@@ -195,7 +195,7 @@ const UpdateProduct = () => {
                   style={{ backgroundColor: 'white', color: 'black' }}
                   value={dietaryPreferenceCategory}
                   onChange={(e) => setDietaryPreferenceCategory(e.target.value)}
-                  className="form-control mt-2"
+                  className="form-select mt-2"
                   id="category_field"
                 >
                   <option value="">Select</option>
@@ -212,7 +212,7 @@ const UpdateProduct = () => {
                   style={{ backgroundColor: 'white', color: 'black' }}
                   value={mealTypeCategory}
                   onChange={(e) => setDietaryPreferenceCategory(e.target.value)}
-                  className="form-control"
+                  className="form-select"
                   id="category_field"
                 >
                   <option value="">Select</option>
@@ -307,10 +307,13 @@ const UpdateProduct = () => {
                   id="login_button"
                   type="submit"
                   // className="btn btn-block py-3"
-                  className="btn my-3 px-4 btn rounded px-5 "
+                  className="btn my-3 px-4 btn rounded my-4 mx-2 "
                 >
                   UPDATE
                 </button>
+                <Link to="/admin/menus" className="btn my-3 px-4 btn rounded mx-2 my-4">
+                Back
+              </Link>
               </div>
             </form>
             </Card>

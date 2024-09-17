@@ -8,7 +8,7 @@ import CategoryList from './dietaryPreferenceCategoryList';
 import CategoryList1 from './MealTypeCategoryList';
 import './CreateMenu.css';
 import CustomAlert from 'components/utilities/Alert';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function CreateMenu() {
   const [name, setName] = useState('');
@@ -421,7 +421,7 @@ setNewMealCategoryName('')
                     <select
                       style={{ backgroundColor: 'white', color: 'black' }}
                       onChange={(e) => setMealTypeCategory(e.target.value)}
-                      className="form-control"
+                      className="form-select"
                       id="category_field"
                       required
                     >
@@ -457,7 +457,7 @@ setNewMealCategoryName('')
                       onChange={(e) =>
                         setDietaryPreferenceCategory(e.target.value)
                       }
-                      className="form-control"
+                      className="form-select"
                       id="dietary_category_field"
                       required
                     >
@@ -491,7 +491,7 @@ setNewMealCategoryName('')
                               color: 'black'
                             }}
                             id="seller_field"
-                            className="form-control"
+                            className="form-select"
                             value={selectedBranch} // Use a separate state for selected value
                             onChange={(e) => setSelectedBranch(e.target.value)}
                             required
@@ -619,6 +619,9 @@ setNewMealCategoryName('')
                     >
                       CREATE
                     </button>
+                    <Link to="/admin/menus" className="btn my-3 px-4 btn rounded my-4">
+                Back
+              </Link>
                   </div>
                 </div>
               </div>

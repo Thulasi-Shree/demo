@@ -161,6 +161,10 @@ const DashboardPage = () => {
           <div className="col">
             <Card className='my-5 Cardimg123 col-10 mx-auto'>
               <h1 className="my-4 text-black fs-1 uppercase text-center">Dashboard</h1>
+              <h5 className="my-2 text-black  uppercase text-center">Role - {user.role}</h5> 
+              {user.role === 'admin' && (
+  <h5 className="my-2 text-black uppercase text-center">Branch - {user.restaurantBranch}</h5>
+)}
               <div className="row pr-4">
                 <div className="col-xl-12 col-sm-12  mb-3">
                   <div className="card text-white">

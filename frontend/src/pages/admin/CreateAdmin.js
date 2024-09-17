@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 import CryptoJS from 'crypto-js';
 import CustomAlert from 'components/utilities/Alert';
+import { Link } from 'react-router-dom';
 
 const CreateAdmin = () => {
   const [formData, setFormData] = useState({
@@ -56,7 +57,7 @@ const CreateAdmin = () => {
         ...formData,
         password: encryptedPassword
       });
-      setAlert({ message: 'Registration successful! please verify your ', type: 'success' });
+      setAlert({ message: 'Verification email sent! Please check your inbox to log in. Note: Your registration will be removed after 10 minutes if the email is not verified ', type: 'success' });
       setFormData( {name: '',
         lastName: '',
         password: '',
@@ -282,6 +283,11 @@ const CreateAdmin = () => {
               Create Admin
             </Button>
           </div>
+          <div className="d-flex justify-content-center">
+              <Link to="/admin/users" className="btn my-3 px-4 btn rounded w-100 my-4">
+                Back
+              </Link>
+            </div>
         </form>
       </Card>
     </div>
