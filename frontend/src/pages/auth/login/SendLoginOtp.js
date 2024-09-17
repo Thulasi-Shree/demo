@@ -23,7 +23,8 @@ const SendLoginOtp = () => {
       navigate('/');
     }
     if (error) {
-      alert('Please register to Login!');
+      // alert('Please register to Login!');
+      setAlert({ message: `Please register to Login!`, type: 'error' });
       setError(null);
     }
   }, [error, isAuthenticated, navigate]);

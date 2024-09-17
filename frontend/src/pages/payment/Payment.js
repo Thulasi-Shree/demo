@@ -222,7 +222,7 @@ const Payment = () => {
                 type="submit"
                 className='btn btn my-color mt-3'
               >
-                Pay -{' '}
+                Pay: {' '}
                 {` $${
                   confirmOrderData.orderSummary &&
                   confirmOrderData.orderSummary.total
