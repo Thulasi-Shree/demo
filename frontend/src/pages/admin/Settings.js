@@ -13,8 +13,8 @@
 //   const [settings, setSettings] = useState({
 //     minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerKm: 0,
-//     deliveryKm: 0,
+//     deliveryChargePerkm: 0,
+//     deliverykm: 0,
 //     restaurantId: '',
 //     restaurantBranch: ''
 //   });
@@ -38,8 +38,8 @@
 //           headers: { 'x-auth-token': token }
 //         });
 //         if (response.data.data) {
-//           const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data;
-//           setSettings({ minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch });
+//           const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data;
+//           setSettings({ minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch });
 //           setIsExisting(true); // Settings already exist
 //         }
 //       } catch (error) {
@@ -149,26 +149,26 @@
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per KM</label>
+//             <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryChargePerKm" 
-//               value={settings.deliveryChargePerKm} 
+//               name="deliveryChargePerkm" 
+//               value={settings.deliveryChargePerkm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery Charge Per Km" 
+//               placeholder="Delivery Charge Per km" 
 //               required 
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryKm" className="form-label">Delivery KM</label>
+//             <label htmlFor="deliverykm" className="form-label">Delivery km</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryKm" 
-//               value={settings.deliveryKm} 
+//               name="deliverykm" 
+//               value={settings.deliverykm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery KM" 
+//               placeholder="Delivery km" 
 //             />
 //           </div>
 //           <button className='btn my-3 px-4 btn rounded w-100' type="submit">Save</button>
@@ -189,8 +189,8 @@ const Settings = ({ token }) => {
   const [settings, setSettings] = useState({
     minDeliveryCharge: '',
     taxAmount: '',
-    deliveryChargePerKm: '',
-    deliveryKm: '',
+    deliveryChargePerkm: '',
+    deliverykm: '',
     restaurantId: '',
     restaurantBranch: ''
   });
@@ -207,7 +207,7 @@ const Settings = ({ token }) => {
       if (response.data.data) {
         setSettingsList(response.data.data);
         if (response.data.data.length > 0) {
-          const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data[0];
+          const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data[0];
           setSettings({restaurantId, restaurantBranch });
           setIsExisting(true); // Settings already exist
         }
@@ -244,7 +244,7 @@ const Settings = ({ token }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/api/admin/settings/update', {
+      const response = await axios.post('/api/admin/settings/update', {
         ...settings,
         isExisting // Send a flag to indicate whether the settings exist
       }, {
@@ -257,8 +257,8 @@ const Settings = ({ token }) => {
         setSettings({
           minDeliveryCharge: '',
           taxAmount: '',
-          deliveryChargePerKm: '',
-          deliveryKm: '',
+          deliveryChargePerkm: '',
+          deliverykm: '',
           restaurantId: '',
           restaurantBranch: ''
         })
@@ -340,36 +340,36 @@ const Settings = ({ token }) => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per KM</label>
+            <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
             <input 
               type="number" 
               className="form-control" 
-              name="deliveryChargePerKm" 
-              value={settings.deliveryChargePerKm} 
+              name="deliveryChargePerkm" 
+              value={settings.deliveryChargePerkm} 
               onChange={(e) => {
                 const value = e.target.value;
                 if (value >= 0) { 
                   handleChange(e);
                 }
               }}
-              placeholder="Delivery Charge Per Km" 
+              placeholder="Delivery Charge Per km" 
               required 
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="deliveryKm" className="form-label">Delivery KM</label>
+            <label htmlFor="deliverykm" className="form-label">Delivery km</label>
             <input 
               type="number" 
               className="form-control" 
-              name="deliveryKm" 
-              value={settings.deliveryKm} 
+              name="deliverykm" 
+              value={settings.deliverykm} 
               onChange={(e) => {
                 const value = e.target.value;
                 if (value >= 0) { 
                   handleChange(e);
                 }
               }}
-              placeholder="Delivery KM" 
+              placeholder="Delivery km" 
             />
           </div>
           <button className='btn my-3 px-4 btn rounded w-100' type="submit">Save</button>
@@ -383,8 +383,8 @@ const Settings = ({ token }) => {
               <th>Restaurant Branch</th>
               <th>Min Delivery Charge</th>
               <th>Tax Amount</th>
-              <th>Delivery Charge Per Km</th>
-              <th>Delivery Km</th>
+              <th>Delivery Charge Per km</th>
+              <th>Delivery km</th>
             </tr>
           </thead>
           <tbody>
@@ -394,8 +394,8 @@ const Settings = ({ token }) => {
                 <td>{setting.restaurantBranch || 'N/A'}</td>
                 <td>{setting.minDeliveryCharge}</td>
                 <td>{setting.taxAmount}</td>
-                <td>{setting.deliveryChargePerKm}</td>
-                <td>{setting.deliveryKm}</td>
+                <td>{setting.deliveryChargePerkm}</td>
+                <td>{setting.deliverykm}</td>
               </tr>
             ))}
           </tbody>
@@ -419,8 +419,8 @@ export default Settings;
 //   const [selectedSettings, setSelectedSettings] = useState({
 //     minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerKm: 0,
-//     deliveryKm: 0,
+//     deliveryChargePerkm: 0,
+//     deliverykm: 0,
 //     restaurantId: '',
 //     restaurantBranch: ''
 //   });
@@ -445,8 +445,8 @@ export default Settings;
 //         });
 //         if (response.data.data && response.data.data.length > 0) {
 //           setSettingsList(response.data.data);
-//           const { minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch } = response.data.data[0];
-//           setSelectedSettings({ minDeliveryCharge, taxAmount, deliveryChargePerKm, deliveryKm, restaurantId, restaurantBranch });
+//           const { minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch } = response.data.data[0];
+//           setSelectedSettings({ minDeliveryCharge, taxAmount, deliveryChargePerkm, deliverykm, restaurantId, restaurantBranch });
 //           setIsExisting(true); // Settings already exist
 //         }
 //       } catch (error) {
@@ -467,8 +467,8 @@ export default Settings;
 //       // ...prevSettings,
 //       minDeliveryCharge: 0,
 //     taxAmount: 0,
-//     deliveryChargePerKm: 0,
-//     deliveryKm: 0,
+//     deliveryChargePerkm: 0,
+//     deliverykm: 0,
 //       restaurantId: selectedRestaurantId,
 //       restaurantBranch: selectedRestaurant ? selectedRestaurant.restaurantBranch : '' // Default to empty string if not found
 //     }));
@@ -556,26 +556,26 @@ export default Settings;
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryChargePerKm" className="form-label">Delivery Charges per KM</label>
+//             <label htmlFor="deliveryChargePerkm" className="form-label">Delivery Charges per km</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryChargePerKm" 
-//               value={selectedSettings.deliveryChargePerKm} 
+//               name="deliveryChargePerkm" 
+//               value={selectedSettings.deliveryChargePerkm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery Charge Per Km" 
+//               placeholder="Delivery Charge Per km" 
 //               required 
 //             />
 //           </div>
 //           <div className="mb-3">
-//             <label htmlFor="deliveryKm" className="form-label">Delivery KM</label>
+//             <label htmlFor="deliverykm" className="form-label">Delivery km</label>
 //             <input 
 //               type="number" 
 //               className="form-control" 
-//               name="deliveryKm" 
-//               value={selectedSettings.deliveryKm} 
+//               name="deliverykm" 
+//               value={selectedSettings.deliverykm} 
 //               onChange={handleChange} 
-//               placeholder="Delivery KM" 
+//               placeholder="Delivery km" 
 //             />
 //           </div>
 //           <button className='btn my-3 px-4 btn rounded w-100' type="submit">Save</button>
@@ -588,8 +588,8 @@ export default Settings;
 //               <th>Restaurant Branch</th>
 //               <th>Min Delivery Charge</th>
 //               <th>Tax Amount</th>
-//               <th>Delivery Charge Per Km</th>
-//               <th>Delivery Km</th>
+//               <th>Delivery Charge Per km</th>
+//               <th>Delivery km</th>
 //             </tr>
 //           </thead>
 //           <tbody>
@@ -599,8 +599,8 @@ export default Settings;
 //                 <td>{setting.restaurantBranch || 'N/A'}</td>
 //                 <td>{setting.minDeliveryCharge}</td>
 //                 <td>{setting.taxAmount}</td>
-//                 <td>{setting.deliveryChargePerKm}</td>
-//                 <td>{setting.deliveryKm}</td>
+//                 <td>{setting.deliveryChargePerkm}</td>
+//                 <td>{setting.deliverykm}</td>
 //               </tr>
 //             ))}
 //           </tbody>
